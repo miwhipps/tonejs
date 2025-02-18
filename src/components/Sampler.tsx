@@ -3,14 +3,16 @@ import * as Tone from "tone";
 const Sampler: React.FC = () => {
   const sampler = new Tone.Sampler(
     {
-      C3: "path/to/C3.mp3",
-      "D#3": "path/to/Dsharp3.mp3",
-      "F#3": "path/to/Fsharp3.mp3",
-      A3: "path/to/A3.mp3",
+      C3: "/Users/michaelwhipps/Documents/tonejs/tonejs/MPC2000 Snacks/BD 808LngHiMPC2K.wav",
+      "D#3":
+        "/Users/michaelwhipps/Documents/tonejs/tonejs/MPC2000 Snacks/BD 909ish MPC2K.wav",
+      "F#3":
+        "/Users/michaelwhipps/Documents/tonejs/tonejs/MPC2000 Snacks/BD Bounce MPC2K.wav",
+      A3: "/Users/michaelwhipps/Documents/tonejs/tonejs/MPC2000 Snacks/BD LMClip MPC2K.wav",
     },
     function () {
       //sampler will repitch the closest sample
-      sampler.triggerAttack("D3");
+      sampler.triggerAttack("C3");
     }
   );
   return (
