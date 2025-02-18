@@ -7,8 +7,8 @@ import "react-piano/build/styles.css";
 const Keyboard: React.FC = () => {
   // Implement audio playback
 
-  // function playNote(midiNumber) { ... }
-  // function stopNote(midiNumber) { ... }
+  //   function playNote(midiNumber) { ... }
+  //   function stopNote(midiNumber) { ... }
 
   const firstNote = 48;
   const lastNote = 77;

@@ -31,4 +31,16 @@ declare module "react-piano" {
     static create(config: KeyboardShortcutConfig): KeyboardShortcut[];
     static HOME_ROW: KeyboardShortcut[];
   }
+
+  export class MidiNumbers {
+    static fromNote(note: string): number;
+    static getAttributes(midiNumber: number): {
+      note: string;
+      pitch: number;
+      octave: number;
+    };
+    static getFrequency(midiNumber: number): number;
+    static MIN_MIDI_NUMBER: number;
+    static MAX_MIDI_NUMBER: number;
+  }
 }
