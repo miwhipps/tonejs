@@ -5,6 +5,7 @@
     { "path": "./tsconfig.node.json" }
   ],
   "compilerOptions": {
-    "typeRoots": ["./@types", "./src"]
+    "typeRoots": ["./@types", "./src"],
+    "jsx": "react-jsx"
   }
 }

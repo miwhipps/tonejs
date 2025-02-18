@@ -1,6 +1,7 @@
 import * as Tone from "tone";
 import { Piano, KeyboardShortcuts } from "react-piano";
 import { useState } from "react";
+import "react-piano/build/styles.css";
 
 const Synth1: React.FC = () => {
   const [synth] = useState(() => new Tone.Synth().toDestination());
