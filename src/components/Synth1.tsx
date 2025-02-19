@@ -57,7 +57,30 @@ const Synth1: React.FC = () => {
   return (
     <div>
       <h1>Synth1</h1>
-
+      <div>
+        <label>
+          Attack:
+          <input
+            type="range"
+            max="1"
+            step="0.02"
+            name="envelopeAttack"
+            value={config.envelopeAttack}
+            onChange={handleChange}
+          />
+        </label>
+        <label>
+          Decay:
+          <input
+            type="range"
+            max="1"
+            step="0.02"
+            name="envelopeDecay"
+            value={config.envelopeDecay}
+            onChange={handleChange}
+          />
+        </label>
+      </div>
       <Piano
         noteRange={{ first: firstNote, last: lastNote }}
         onPlayNote={playNote}
