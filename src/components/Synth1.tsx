@@ -80,6 +80,28 @@ const Synth1: React.FC = () => {
             onChange={handleChange}
           />
         </label>
+        <label>
+          Sustain:
+          <input
+            type="range"
+            max="1"
+            step="0.02"
+            name="envelopeSustain"
+            value={config.envelopeSustain}
+            onChange={handleChange}
+          />
+        </label>
+        <label>
+          Release:
+          <input
+            type="range"
+            max="1"
+            step="0.02"
+            name="envelopeRelease"
+            value={config.envelopeRelease}
+            onChange={handleChange}
+          />
+        </label>
       </div>
       <Piano
         noteRange={{ first: firstNote, last: lastNote }}
