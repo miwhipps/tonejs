@@ -15,6 +15,7 @@ const Synth1: React.FC = () => {
     envelopeDecay: 0.1,
     envelopeSustain: 0.9,
     envelopeRelease: 1,
+    portamento: 0,
   });
 
   useEffect(() => {
@@ -24,6 +25,7 @@ const Synth1: React.FC = () => {
     synth.envelope.decay = config.envelopeDecay;
     synth.envelope.sustain = config.envelopeSustain;
     synth.envelope.release = config.envelopeRelease;
+    synth.portamento = config.portamento;
   }, [config, synth]);
 
   const handleChange = (
@@ -58,6 +60,7 @@ const Synth1: React.FC = () => {
     <div>
       <h1>Synth1</h1>
       <div>
+        <h3>Envelope</h3>
         <label>
           Attack:
           <input
@@ -99,6 +102,19 @@ const Synth1: React.FC = () => {
             step="0.02"
             name="envelopeRelease"
             value={config.envelopeRelease}
+            onChange={handleChange}
+          />
+        </label>
+      </div>
+      <div>
+        <label>
+          Portamento:
+          <input
+            type="range"
+            max="1"
+            step="0.02"
+            name="portamento"
+            value={config.portamento}
             onChange={handleChange}
           />
         </label>
