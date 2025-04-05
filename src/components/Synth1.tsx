@@ -7,18 +7,34 @@ const Synth1: React.FC = () => {
   const [synth] = useState(() => new Tone.Synth().toDestination());
   console.log(synth.get());
 
-  const [config, setConfig] = useState({
-    frequency: "C1",
+  const [config, setConfig] = useState<{
+    frequency: string;
+    detune: number;
+    oscillatorType: Tone.ToneOscillatorType;
+    oscillatorFreq: number;
+    envelopeAttack: number;
+    envelopeDecay: number;
+    envelopeSustain: number;
+    envelopeRelease: number;
+    portamento: number;
+    volume: number;
+  }>({
+    frequency: "C5",
     detune: 0,
-    oscillatorType: "square",
+    oscillatorType: "triangle",
+    oscillatorFreq: 440,
     envelopeAttack: 0.005,
     envelopeDecay: 0.1,
     envelopeSustain: 0.9,
     envelopeRelease: 1,
     portamento: 0,
+    volume: 0,
   });
 
   useEffect(() => {
+    synth.oscillator.type = config.oscillatorType;
+    synth.oscillator.frequency.value = config.oscillatorFreq;
+    synth.volume.value = config.volume;
     synth.frequency.value = config.frequency;
     synth.detune.value = config.detune;
     synth.envelope.attack = config.envelopeAttack;
@@ -59,6 +75,53 @@ const Synth1: React.FC = () => {
   return (
     <div>
       <h1>Synth1</h1>
+      <div>
+        <h3>Oscillator</h3>
+        <label>
+          Type:
+          <select
+            name="oscillatorType"
+            value={config.oscillatorType}
+            onChange={handleChange}
+          >
+            <option value="sine">Sine</option>
+            <option value="square">Square</option>
+            <option value="sawtooth">Sawtooth</option>
+            <option value="triangle">Triangle</option>
+          </select>
+        </label>
+        <label>
+          Frequency:
+          <input
+            type="range"
+            max="1000"
+            step="1"
+            name="oscillatorFreq"
+            value={config.oscillatorFreq}
+            onChange={handleChange}
+          />
+        </label>
+        <label>
+          Detune:
+          <input
+            type="range"
+            max="100"
+            step="1"
+            name="detune"
+            value={config.detune}
+            onChange={handleChange}
+          />
+        </label>
+        <label>
+          Frequency:
+          <input
+            type="text"
+            name="frequency"
+            value={config.frequency}
+            onChange={handleChange}
+          />
+        </label>
+      </div>
       <div>
         <h3>Envelope</h3>
         <label>
@@ -107,6 +170,7 @@ const Synth1: React.FC = () => {
         </label>
       </div>
       <div>
+        <h3>Control</h3>
         <label>
           Portamento:
           <input
@@ -115,6 +179,17 @@ const Synth1: React.FC = () => {
             step="0.02"
             name="portamento"
             value={config.portamento}
+            onChange={handleChange}
+          />
+        </label>
+        <label>
+          Volume:
+          <input
+            type="range"
+            max="1"
+            step="0.02"
+            name="volume"
+            value={config.volume}
             onChange={handleChange}
           />
         </label>
