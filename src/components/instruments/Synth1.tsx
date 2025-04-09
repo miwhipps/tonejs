@@ -1,27 +1,27 @@
 import * as Tone from "tone";
 import { Piano, KeyboardShortcuts } from "react-piano";
-import { useState, useEffect } from "react";
+import { useState, useEffect, forwardRef, useImperativeHandle } from "react";
 import "react-piano/build/styles.css";
 
-const Synth1: React.FC = () => {
-  const [synth] = useState(() => new Tone.Synth().toDestination());
-  console.log(synth.get());
+export type Synth1Handle = {
+  getSynth: () => Tone.Synth;
+};
 
-  const [config, setConfig] = useState<{
-    frequency: string;
-    detune: number;
-    oscillatorType: Tone.ToneOscillatorType;
-    oscillatorFreq: number;
-    envelopeAttack: number;
-    envelopeDecay: number;
-    envelopeSustain: number;
-    envelopeRelease: number;
-    portamento: number;
-    volume: number;
-  }>({
+const Synth1 = forwardRef<Synth1Handle>((_, ref) => {
+  const [synth] = useState(() => new Tone.Synth());
+
+  useImperativeHandle(
+    ref,
+    () => ({
+      getSynth: () => synth,
+    }),
+    [synth]
+  );
+
+  const [config, setConfig] = useState({
     frequency: "C5",
     detune: 0,
-    oscillatorType: "triangle",
+    oscillatorType: "triangle" as Tone.ToneOscillatorType,
     oscillatorFreq: 440,
     envelopeAttack: 0.005,
     envelopeDecay: 0.1,
@@ -48,18 +48,19 @@ const Synth1: React.FC = () => {
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    setConfig((prevConfig) => ({
-      ...prevConfig,
-      [name]: value,
+    setConfig((prev) => ({
+      ...prev,
+      [name]:
+        typeof prev[name as keyof typeof prev] === "number" ? +value : value,
     }));
   };
 
-  const firstNote = 24; // MIDI number for C1
-  const lastNote = 41; // MIDI number for F2
+  const firstNote = 24;
+  const lastNote = 41;
 
   const keyboardShortcuts = KeyboardShortcuts.create({
-    firstNote: firstNote,
-    lastNote: lastNote,
+    firstNote,
+    lastNote,
     keyboardConfig: KeyboardShortcuts.HOME_ROW,
   });
 
@@ -186,8 +187,9 @@ const Synth1: React.FC = () => {
           Volume:
           <input
             type="range"
-            max="1"
-            step="0.02"
+            min="-60"
+            max="0"
+            step="1"
             name="volume"
             value={config.volume}
             onChange={handleChange}
@@ -203,6 +205,6 @@ const Synth1: React.FC = () => {
       />
     </div>
   );
-};
+});
 
 export default Synth1;
