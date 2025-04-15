@@ -74,128 +74,124 @@ const Synth1 = forwardRef<Synth1Handle>((_, ref) => {
   };
 
   return (
-    <div>
-      <h1>Synth1</h1>
-      <div>
-        <h3>Oscillator</h3>
-        <label>
-          Type:
-          <select
-            name="oscillatorType"
-            value={config.oscillatorType}
-            onChange={handleChange}
-          >
-            <option value="sine">Sine</option>
-            <option value="square">Square</option>
-            <option value="sawtooth">Sawtooth</option>
-            <option value="triangle">Triangle</option>
-          </select>
-        </label>
-        <label>
-          Frequency:
-          <input
-            type="range"
-            max="1000"
-            step="1"
-            name="oscillatorFreq"
-            value={config.oscillatorFreq}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Detune:
-          <input
-            type="range"
-            max="100"
-            step="1"
-            name="detune"
-            value={config.detune}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Frequency:
-          <input
-            type="text"
-            name="frequency"
-            value={config.frequency}
-            onChange={handleChange}
-          />
-        </label>
-      </div>
-      <div>
-        <h3>Envelope</h3>
-        <label>
-          Attack:
-          <input
-            type="range"
-            max="1"
-            step="0.02"
-            name="envelopeAttack"
-            value={config.envelopeAttack}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Decay:
-          <input
-            type="range"
-            max="1"
-            step="0.02"
-            name="envelopeDecay"
-            value={config.envelopeDecay}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Sustain:
-          <input
-            type="range"
-            max="1"
-            step="0.02"
-            name="envelopeSustain"
-            value={config.envelopeSustain}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Release:
-          <input
-            type="range"
-            max="1"
-            step="0.02"
-            name="envelopeRelease"
-            value={config.envelopeRelease}
-            onChange={handleChange}
-          />
-        </label>
-      </div>
-      <div>
-        <h3>Control</h3>
-        <label>
-          Portamento:
-          <input
-            type="range"
-            max="1"
-            step="0.02"
-            name="portamento"
-            value={config.portamento}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Volume:
-          <input
-            type="range"
-            min="-60"
-            max="0"
-            step="1"
-            name="volume"
-            value={config.volume}
-            onChange={handleChange}
-          />
-        </label>
-      </div>
+    <div className="bg-[var(--color-surface)] text-[var(--color-text-base)] p-6 shadow-[var(--shadow-glow)] max-w-6xl mx-auto mt-8 border border-[var(--color-border)]">
+      <h1 className="text-2xl font-bold text-[var(--color-primary)] mb-4">
+        Synth One
+      </h1>
+
+      <section className="mb-6">
+        <h3 className="text-lg text-[var(--color-accent)] font-semibold mb-2">
+          Oscillator
+        </h3>
+        <div className="flex flex-col gap-3">
+          <label className="flex flex-col">
+            <span>Type:</span>
+            <select
+              name="oscillatorType"
+              value={config.oscillatorType}
+              onChange={handleChange}
+              className="bg-[var(--color-background)] border border-[var(--color-border)] rounded-lg p-2"
+            >
+              <option value="sine">Sine</option>
+              <option value="square">Square</option>
+              <option value="sawtooth">Sawtooth</option>
+              <option value="triangle">Triangle</option>
+            </select>
+          </label>
+          <label className="flex flex-col">
+            <span>Frequency:</span>
+            <input
+              type="range"
+              max="1000"
+              step="1"
+              name="oscillatorFreq"
+              value={config.oscillatorFreq}
+              onChange={handleChange}
+              className="accent-[var(--color-primary)]"
+            />
+          </label>
+          <label className="flex flex-col">
+            <span>Detune:</span>
+            <input
+              type="range"
+              max="100"
+              step="1"
+              name="detune"
+              value={config.detune}
+              onChange={handleChange}
+              className="accent-[var(--color-primary)]"
+            />
+          </label>
+          <label className="flex flex-col">
+            <span>Note:</span>
+            <input
+              type="text"
+              name="frequency"
+              value={config.frequency}
+              onChange={handleChange}
+              className="bg-[var(--color-background)] border border-[var(--color-border)] rounded-lg p-2"
+            />
+          </label>
+        </div>
+      </section>
+
+      <section className="mb-6">
+        <h3 className="text-lg text-[var(--color-accent)] font-semibold mb-2">
+          Envelope
+        </h3>
+        <div className="grid grid-cols-2 gap-4">
+          {["Attack", "Decay", "Sustain", "Release"].map((param) => (
+            <label key={param} className="flex flex-col">
+              <span>{param}:</span>
+              <input
+                type="range"
+                max="1"
+                step="0.02"
+                name={`envelope${param}`}
+                value={
+                  config[`envelope${param}` as keyof typeof config] as number
+                }
+                onChange={handleChange}
+                className="accent-[var(--color-accent)]"
+              />
+            </label>
+          ))}
+        </div>
+      </section>
+
+      <section className="mb-6">
+        <h3 className="text-lg text-[var(--color-accent)] font-semibold mb-2">
+          Control
+        </h3>
+        <div className="grid grid-cols-2 gap-4">
+          <label className="flex flex-col">
+            <span>Portamento:</span>
+            <input
+              type="range"
+              max="1"
+              step="0.02"
+              name="portamento"
+              value={config.portamento}
+              onChange={handleChange}
+              className="accent-[var(--color-primary)]"
+            />
+          </label>
+          <label className="flex flex-col">
+            <span>Volume:</span>
+            <input
+              type="range"
+              min="-60"
+              max="0"
+              step="1"
+              name="volume"
+              value={config.volume}
+              onChange={handleChange}
+              className="accent-[var(--color-primary)]"
+            />
+          </label>
+        </div>
+      </section>
+
       <Piano
         noteRange={{ first: firstNote, last: lastNote }}
         onPlayNote={playNote}

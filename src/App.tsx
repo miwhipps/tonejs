@@ -39,9 +39,13 @@ function App() {
 
   return (
     <>
-      <h1>TONEJS</h1>
       {!audioStarted ? (
-        <button onClick={handleStartAudio}>🔊 Start Audio</button>
+        <button
+          onClick={handleStartAudio}
+          className="flex justify-center items-center mx-auto my-8 p-4 bg-[var(--color-primary)] text-white rounded-xl shadow-lg hover:bg-[var(--color-accent)] transition-colors"
+        >
+          🔊 Start Audio
+        </button>
       ) : (
         <>
           <Synth1 ref={synthRef} />
