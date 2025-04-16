@@ -5,6 +5,7 @@ import "react-piano/build/styles.css";
 
 export type Synth1Handle = {
   getSynth: () => Tone.Synth;
+  trigger: (note: string, time?: Tone.Unit.Time) => void;
 };
 
 const Synth1 = forwardRef<Synth1Handle>((_, ref) => {
@@ -14,6 +15,9 @@ const Synth1 = forwardRef<Synth1Handle>((_, ref) => {
     ref,
     () => ({
       getSynth: () => synth,
+      trigger: (note, time) => {
+        synth.triggerAttackRelease(note, "8n", time);
+      },
     }),
     [synth]
   );
