@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import Synth1, { Synth1Handle } from "./components/instruments/Synth1.tsx";
 import Chorus, { ChorusHandle } from "./components/fx/Chorus.tsx";
 import Phaser, { PhaserHandle } from "./components/fx/Phaser.tsx";
+import Sequencer from "./components/sequencers/Sequencer.tsx";
 
 function App() {
   const synthRef = useRef<Synth1Handle>(null);
@@ -49,6 +50,7 @@ function App() {
       ) : (
         <>
           <Synth1 ref={synthRef} />
+          <Sequencer />
           <Chorus ref={chorusRef} />
           <Phaser ref={phaserRef} />
         </>
