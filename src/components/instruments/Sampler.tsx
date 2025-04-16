@@ -12,10 +12,14 @@ const Sampler = forwardRef<SamplerHandle>((_, ref) => {
   useEffect(() => {
     const newSampler = new Tone.Sampler(
       {
-        C3: "/samples/BD_808LngHiMPC2K.wav",
-        "D#3": "/samples/BD_909ish_MPC2K.wav",
-        "F#3": "/samples/BD_Bounce_MPC2K.wav",
-        A3: "/samples/BD_LMClip_MPC2K.wav",
+        C3: "/samples/BD_LMClip_MPC2K.wav",
+        D3: "/samples/BD_909ish_MPC2K.wav",
+        E3: "/samples/BD_Bounce_MPC2K.wav",
+        F3: "/samples/SD_Verb_MPC2K.wav",
+        G3: "/samples/CP_909_Hi_MPC2K.wav",
+        A3: "/samples/Huh_MPC2K.wav",
+        B3: "/samples/CH_909Tail_MPC2K.wav",
+        C4: "/samples/OH_Anlg_Hi_MPC2K.wav",
       },
       {
         onload: () => {
@@ -51,27 +55,51 @@ const Sampler = forwardRef<SamplerHandle>((_, ref) => {
       <div className="grid grid-cols-2 gap-4">
         <button
           onClick={() => playSample("C3")}
-          className="p-4 bg-blue-500 text-white rounded-lg hover:bg-blue-700"
+          className="p-4 bg-purple-500 text-white rounded-lg hover:bg-purple-700"
         >
-          BD 808
+          BD LMClip
         </button>
         <button
-          onClick={() => playSample("D#3")}
-          className="p-4 bg-green-500 text-white rounded-lg hover:bg-green-700"
+          onClick={() => playSample("D3")}
+          className="p-4 bg-purple-500 text-white rounded-lg hover:bg-purple-700"
         >
-          BD 909
+          BD 909ish
         </button>
         <button
-          onClick={() => playSample("F#3")}
-          className="p-4 bg-red-500 text-white rounded-lg hover:bg-red-700"
+          onClick={() => playSample("E3")}
+          className="p-4 bg-purple-500 text-white rounded-lg hover:bg-purple-700"
         >
           BD Bounce
         </button>
         <button
-          onClick={() => playSample("A3")}
-          className="p-4 bg-yellow-500 text-white rounded-lg hover:bg-yellow-700"
+          onClick={() => playSample("F3")}
+          className="p-4 bg-purple-500 text-white rounded-lg hover:bg-purple-700"
         >
-          BD LMClip
+          SD Verb
+        </button>
+        <button
+          onClick={() => playSample("G3")}
+          className="p-4 bg-purple-500 text-white rounded-lg hover:bg-purple-700"
+        >
+          CP 909 Hi
+        </button>
+        <button
+          onClick={() => playSample("A3")}
+          className="p-4 bg-purple-500 text-white rounded-lg hover:bg-purple-700"
+        >
+          Huh
+        </button>
+        <button
+          onClick={() => playSample("B3")}
+          className="p-4 bg-purple-500 text-white rounded-lg hover:bg-purple-700"
+        >
+          CH 909Tail
+        </button>
+        <button
+          onClick={() => playSample("C3")}
+          className="p-4 bg-purple-500 text-white rounded-lg hover:bg-purple-700"
+        >
+          OH Anlg Hi
         </button>
       </div>
     </div>
