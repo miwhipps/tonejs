@@ -48,7 +48,7 @@ const DrumSequencer: React.FC<Props> = ({ samplerRef }) => {
   }, [sequence, samplerRef]);
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 p-4">
       {sequence.map((row, rowIndex) => (
         <div key={rowIndex} className="flex items-center gap-2">
           <div className="w-8 text-right text-sm text-[var(--color-text-muted)]">
