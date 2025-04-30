@@ -8,7 +8,9 @@ const steps = 16;
 const DrumMachine = () => {
   const [sampler, setSampler] = useState<Tone.Sampler | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [currentStep, setCurrentStep] = useState<number>(0);
 
+  // Initialize the sampler with drum samples
   useEffect(() => {
     const newSampler = new Tone.Sampler(
       {
@@ -36,6 +38,7 @@ const DrumMachine = () => {
     };
   }, []);
 
+  // Play a sample when a button is clicked
   const playSample = (note: string) => {
     if (isLoaded && sampler) {
       sampler.triggerAttackRelease(note, "8n");
@@ -46,7 +49,6 @@ const DrumMachine = () => {
   const [sequence, setSequence] = useState<boolean[][]>(() =>
     drumNotes.map(() => Array(steps).fill(false))
   );
-  const [currentStep, setCurrentStep] = useState<number>(0);
 
   // Toggle a pad on/off
   const toggleStep = (row: number, col: number) => {
@@ -57,11 +59,11 @@ const DrumMachine = () => {
     );
   };
 
-  // Create the sequence synced with Tone.Transport
+  // Play the sequence
   useEffect(() => {
     if (!sampler || !isLoaded) return;
 
-    const toneSequence = new Tone.Sequence(
+    const seq = new Tone.Sequence(
       (time, step) => {
         setCurrentStep(step);
         drumNotes.forEach((note, rowIndex) => {
@@ -74,13 +76,12 @@ const DrumMachine = () => {
       "16n"
     );
 
-    toneSequence.start(0);
-    Tone.getTransport().start();
+    seq.start(0);
 
     return () => {
-      toneSequence.dispose();
+      seq.dispose();
     };
-  }, [sequence, sampler, isLoaded]);
+  }, [sampler, isLoaded, sequence]);
 
   return (
     <div className="bg-[var(--color-surface)] text-[var(--color-text-base)] p-6 shadow-[var(--shadow-glow)] max-w-6xl mx-auto mt-8 border border-[var(--color-border)]">

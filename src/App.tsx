@@ -15,11 +15,16 @@ function App() {
   const [isPlaying, setIsPlaying] = useState(false);
 
   const handleTransportToggle = () => {
+    const transport = Tone.getTransport();
+
     if (isPlaying) {
-      Tone.Transport.stop();
+      transport.stop();
+      synthRef.current?.stopSequence();
     } else {
-      Tone.Transport.start();
+      synthRef.current?.startSequence();
+      transport.start();
     }
+
     setIsPlaying(!isPlaying);
   };
 
@@ -49,13 +54,6 @@ function App() {
       console.error("Error starting audio:", error);
     }
   };
-
-  // Debugging: Ensure Tone.Transport state when audio is started
-  useEffect(() => {
-    if (audioStarted) {
-      console.log("Tone.Transport state:", Tone.Transport.state);
-    }
-  }, [audioStarted]);
 
   return (
     <>

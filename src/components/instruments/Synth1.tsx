@@ -1,18 +1,31 @@
 import * as Tone from "tone";
 import { Piano, KeyboardShortcuts } from "react-piano";
-import { useState, useEffect, forwardRef, useImperativeHandle } from "react";
+import {
+  useState,
+  useEffect,
+  forwardRef,
+  useRef,
+  useImperativeHandle,
+  useMemo,
+} from "react";
 import "react-piano/build/styles.css";
 
 export type Synth1Handle = {
   getSynth: () => Tone.Synth;
   trigger: (note: string, time?: Tone.Unit.Time) => void;
+  startSequence: () => void;
+  stopSequence: () => void;
 };
 
 const Synth1 = forwardRef<Synth1Handle>((_, ref) => {
-  const notes = ["C4", "D4", "E4", "F4", "G4", "A4", "B4", "C5"];
-
+  const notes = useMemo(
+    () => ["C4", "D4", "E4", "F4", "G4", "A4", "B4", "C5"],
+    []
+  );
   const [synth] = useState(() => new Tone.Synth());
+  const sequenceRef = useRef<Tone.Sequence | null>(null);
 
+  // Start the audio context when the component mounts
   useImperativeHandle(
     ref,
     () => ({
@@ -20,10 +33,17 @@ const Synth1 = forwardRef<Synth1Handle>((_, ref) => {
       trigger: (note, time) => {
         synth.triggerAttackRelease(note, "8n", time);
       },
+      startSequence: () => {
+        sequenceRef.current?.start(0);
+      },
+      stopSequence: () => {
+        sequenceRef.current?.stop();
+      },
     }),
     [synth]
   );
 
+  // Synth configuration
   const [config, setConfig] = useState({
     frequency: "C5",
     detune: 0,
@@ -37,6 +57,7 @@ const Synth1 = forwardRef<Synth1Handle>((_, ref) => {
     volume: 0,
   });
 
+  // Initialize synth
   useEffect(() => {
     synth.oscillator.type = config.oscillatorType;
     synth.oscillator.frequency.value = config.oscillatorFreq;
@@ -50,6 +71,7 @@ const Synth1 = forwardRef<Synth1Handle>((_, ref) => {
     synth.portamento = config.portamento;
   }, [config, synth]);
 
+  // Update synth parameters when config changes
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -80,6 +102,7 @@ const Synth1 = forwardRef<Synth1Handle>((_, ref) => {
   };
 
   const steps = 16; // Number of steps in the sequencer
+
   const [patterns, setPatterns] = useState(
     notes.map(() => Array(steps).fill(false)) // Create one pattern for each note
   );
@@ -91,6 +114,7 @@ const Synth1 = forwardRef<Synth1Handle>((_, ref) => {
     setPatterns(newPatterns);
   };
 
+  // Play the sequence
   useEffect(() => {
     const seq = new Tone.Sequence(
       (time, step) => {
@@ -105,12 +129,13 @@ const Synth1 = forwardRef<Synth1Handle>((_, ref) => {
       "16n"
     );
 
-    seq.start(0); // Schedule to start at the beginning of the transport
+    sequenceRef.current = seq;
 
     return () => {
       seq.dispose();
+      sequenceRef.current = null;
     };
-  }, [patterns]);
+  }, [notes, patterns, synth]);
 
   return (
     <>
@@ -232,18 +257,11 @@ const Synth1 = forwardRef<Synth1Handle>((_, ref) => {
           </div>
         </section>
 
-        <Piano
-          noteRange={{ first: firstNote, last: lastNote }}
-          onPlayNote={playNote}
-          onStopNote={stopNote}
-          width={1000}
-          keyboardShortcuts={keyboardShortcuts}
-        />
         <div className="p-4">
           {notes.map((note, noteIndex) => (
             <div key={noteIndex} className="mb-4">
               <div className="font-bold">{note}</div>
-              <div className="flex gap-1 mt-2">
+              <div className="flex gap-1 mt-2 justify-center">
                 {patterns[noteIndex].map((active, stepIndex) => (
                   <button
                     key={stepIndex}
@@ -253,16 +271,23 @@ const Synth1 = forwardRef<Synth1Handle>((_, ref) => {
                         ? "bg-[var(--color-primary)]"
                         : "bg-[var(--color-surface)]"
                     } border border-[var(--color-border)]
-                ${
-                  currentStep === stepIndex
-                    ? "ring-2 ring-[var(--color-accent)]"
-                    : ""
-                }`}
+                  ${
+                    currentStep === stepIndex
+                      ? "ring-2 ring-[var(--color-accent)]"
+                      : ""
+                  }`}
                   />
                 ))}
               </div>
             </div>
           ))}
+          <Piano
+            noteRange={{ first: firstNote, last: lastNote }}
+            onPlayNote={playNote}
+            onStopNote={stopNote}
+            width={1000}
+            keyboardShortcuts={keyboardShortcuts}
+          />
         </div>
       </div>
     </>
