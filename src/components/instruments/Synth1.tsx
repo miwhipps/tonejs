@@ -1,47 +1,19 @@
 import * as Tone from "tone";
 import { Piano, KeyboardShortcuts } from "react-piano";
-import {
-  useState,
-  useEffect,
-  forwardRef,
-  useRef,
-  useImperativeHandle,
-  useMemo,
-} from "react";
+import { useState, useEffect, forwardRef, useMemo } from "react";
 import "react-piano/build/styles.css";
 
 export type Synth1Handle = {
   getSynth: () => Tone.Synth;
   trigger: (note: string, time?: Tone.Unit.Time) => void;
-  startSequence: () => void;
-  stopSequence: () => void;
 };
 
-const Synth1 = forwardRef<Synth1Handle>((_, ref) => {
+const Synth1 = forwardRef<Synth1Handle>(() => {
   const notes = useMemo(
     () => ["C4", "D4", "E4", "F4", "G4", "A4", "B4", "C5"],
     []
   );
   const [synth] = useState(() => new Tone.Synth());
-  const sequenceRef = useRef<Tone.Sequence | null>(null);
-
-  // Start the audio context when the component mounts
-  useImperativeHandle(
-    ref,
-    () => ({
-      getSynth: () => synth,
-      trigger: (note, time) => {
-        synth.triggerAttackRelease(note, "8n", time);
-      },
-      startSequence: () => {
-        sequenceRef.current?.start(0);
-      },
-      stopSequence: () => {
-        sequenceRef.current?.stop();
-      },
-    }),
-    [synth]
-  );
 
   // Synth configuration
   const [config, setConfig] = useState({
@@ -85,6 +57,10 @@ const Synth1 = forwardRef<Synth1Handle>((_, ref) => {
 
   const firstNote = 24;
   const lastNote = 41;
+  const [keyboardIsOpen, setKeyboardIsOpen] = useState(false);
+  const toggleKeyboard = () => {
+    setKeyboardIsOpen((prev) => !prev);
+  };
 
   const keyboardShortcuts = KeyboardShortcuts.create({
     firstNote,
@@ -129,11 +105,10 @@ const Synth1 = forwardRef<Synth1Handle>((_, ref) => {
       "16n"
     );
 
-    sequenceRef.current = seq;
+    seq.start(0);
 
     return () => {
       seq.dispose();
-      sequenceRef.current = null;
     };
   }, [notes, patterns, synth]);
 
@@ -281,13 +256,31 @@ const Synth1 = forwardRef<Synth1Handle>((_, ref) => {
               </div>
             </div>
           ))}
-          <Piano
-            noteRange={{ first: firstNote, last: lastNote }}
-            onPlayNote={playNote}
-            onStopNote={stopNote}
-            width={1000}
-            keyboardShortcuts={keyboardShortcuts}
-          />
+          {keyboardIsOpen && (
+            <>
+              <button
+                onClick={toggleKeyboard}
+                className="bg-[var(--color-primary)] text-white rounded-lg p-2 mb-4"
+              >
+                Hide Keys
+              </button>
+              <Piano
+                noteRange={{ first: firstNote, last: lastNote }}
+                onPlayNote={playNote}
+                onStopNote={stopNote}
+                width={1000}
+                keyboardShortcuts={keyboardShortcuts}
+              />
+            </>
+          )}
+          {!keyboardIsOpen && (
+            <button
+              onClick={toggleKeyboard}
+              className="bg-[var(--color-primary)] text-white rounded-lg p-2 mb-4"
+            >
+              Keys
+            </button>
+          )}
         </div>
       </div>
     </>

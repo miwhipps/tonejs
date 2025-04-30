@@ -5,6 +5,7 @@ import Synth1, { Synth1Handle } from "./components/instruments/Synth1.tsx";
 import Chorus, { ChorusHandle } from "./components/fx/Chorus.tsx";
 import Phaser, { PhaserHandle } from "./components/fx/Phaser.tsx";
 import DrumMachine from "./components/instruments/DrumMachine.tsx";
+import Transport from "./components/transport/Transport.tsx";
 
 function App() {
   const synthRef = useRef<Synth1Handle | null>(null);
@@ -12,21 +13,6 @@ function App() {
   const phaserRef = useRef<PhaserHandle | null>(null);
 
   const [audioStarted, setAudioStarted] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
-
-  const handleTransportToggle = () => {
-    const transport = Tone.getTransport();
-
-    if (isPlaying) {
-      transport.stop();
-      synthRef.current?.stopSequence();
-    } else {
-      synthRef.current?.startSequence();
-      transport.start();
-    }
-
-    setIsPlaying(!isPlaying);
-  };
 
   useEffect(() => {
     if (audioStarted) {
@@ -66,17 +52,11 @@ function App() {
         </button>
       ) : (
         <>
-          <button
-            onClick={handleTransportToggle}
-            className="p-4 bg-purple-500 text-white rounded-xl shadow-md my-4"
-          >
-            {isPlaying ? "⏹ Stop" : "▶️ Start"}
-          </button>
-
           <DrumMachine />
           <Synth1 ref={synthRef} />
           <Chorus ref={chorusRef} />
           <Phaser ref={phaserRef} />
+          <Transport />
         </>
       )}
     </>
