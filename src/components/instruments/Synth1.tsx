@@ -114,9 +114,10 @@ const Synth1 = forwardRef<Synth1Handle>(() => {
 
   return (
     <>
-      <div className="bg-[var(--color-surface)] text-[var(--color-text-base)] p-6 shadow-[var(--shadow-glow)] max-w-6xl mx-auto mt-8 border border-[var(--color-border)]">
-        <h1 className="text-2xl font-bold text-[var(--color-primary)] mb-4">
-          Synth One
+      <div className="relative bg-[var(--color-surface)] text-[var(--color-text-base)] p-6 shadow-[var(--shadow-glow)] max-w-6xl mx-auto mt-8 border border-[var(--color-border)]">
+        <h1 className="flex items-baseline gap-2 text-2xl font-bold text-[var(--color-primary)] mb-4">
+          シンセ
+          <span className="text-xl font-normal">one</span>
         </h1>
 
         <section className="mb-6">
@@ -232,11 +233,16 @@ const Synth1 = forwardRef<Synth1Handle>(() => {
           </div>
         </section>
 
-        <div className="p-4">
+        <h3 className="text-lg text-[var(--color-accent)] font-semibold mb-2">
+          Sequencer
+        </h3>
+        <div className="space-y-2 p-4">
           {notes.map((note, noteIndex) => (
-            <div key={noteIndex} className="mb-4">
-              <div className="font-bold">{note}</div>
-              <div className="flex gap-1 mt-2 justify-center">
+            <div key={noteIndex} className="flex items-center gap-2">
+              <div className="w-8 text-right text-sm text-[var(--color-text-muted)]">
+                {note}
+              </div>
+              <div className="flex gap-1">
                 {patterns[noteIndex].map((active, stepIndex) => (
                   <button
                     key={stepIndex}
@@ -246,42 +252,45 @@ const Synth1 = forwardRef<Synth1Handle>(() => {
                         ? "bg-[var(--color-primary)]"
                         : "bg-[var(--color-surface)]"
                     } border border-[var(--color-border)]
-                  ${
-                    currentStep === stepIndex
-                      ? "ring-2 ring-[var(--color-accent)]"
-                      : ""
-                  }`}
+            ${
+              currentStep === stepIndex
+                ? "ring-2 ring-[var(--color-accent)]"
+                : ""
+            }`}
                   />
                 ))}
               </div>
             </div>
           ))}
-          {keyboardIsOpen && (
-            <>
-              <button
-                onClick={toggleKeyboard}
-                className="bg-[var(--color-primary)] text-white rounded-lg p-2 mb-4"
-              >
-                Hide Keys
-              </button>
-              <Piano
-                noteRange={{ first: firstNote, last: lastNote }}
-                onPlayNote={playNote}
-                onStopNote={stopNote}
-                width={1000}
-                keyboardShortcuts={keyboardShortcuts}
-              />
-            </>
-          )}
-          {!keyboardIsOpen && (
+        </div>
+
+        {keyboardIsOpen && (
+          <div>
             <button
               onClick={toggleKeyboard}
-              className="bg-[var(--color-primary)] text-white rounded-lg p-2 mb-4"
+              className="absolute bottom-4 right-4 bg-[var(--color-primary)] text-white rounded-lg p-2 shadow-lg"
             >
-              Keys
+              Hide Keys
             </button>
-          )}
-        </div>
+            <Piano
+              noteRange={{ first: firstNote, last: lastNote }}
+              onPlayNote={playNote}
+              onStopNote={stopNote}
+              width={1000}
+              keyboardShortcuts={keyboardShortcuts}
+            />
+          </div>
+        )}
+        {!keyboardIsOpen && (
+          <div>
+            <button
+              onClick={toggleKeyboard}
+              className="absolute bottom-4 right-4 bg-[var(--color-primary)] text-white rounded-lg p-2 shadow-lg"
+            >
+              Keyboard
+            </button>
+          </div>
+        )}
       </div>
     </>
   );

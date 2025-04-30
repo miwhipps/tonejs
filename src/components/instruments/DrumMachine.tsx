@@ -85,7 +85,7 @@ const DrumMachine = () => {
 
   return (
     <div className="bg-[var(--color-surface)] text-[var(--color-text-base)] p-6 shadow-[var(--shadow-glow)] max-w-6xl mx-auto mt-8 border border-[var(--color-border)]">
-      <h1 className="text-xl font-bold mb-4">Drum Machine</h1>
+      <h1 className="text-xl font-bold mb-4">ドラムマシン</h1>
       {!isLoaded && <p>Loading samples...</p>}
       <div className="grid grid-cols-4 gap-4 max-w-150 mx-auto">
         <button
