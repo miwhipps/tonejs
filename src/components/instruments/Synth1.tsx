@@ -77,7 +77,7 @@ const Synth1 = forwardRef<Synth1Handle>(() => {
     synth.triggerRelease();
   };
 
-  const steps = 16; // Number of steps in the sequencer
+  const steps = 32; // Number of steps in the sequencer
 
   const [patterns, setPatterns] = useState(
     notes.map(() => Array(steps).fill(false)) // Create one pattern for each note
@@ -114,7 +114,7 @@ const Synth1 = forwardRef<Synth1Handle>(() => {
 
   return (
     <>
-      <div className="relative bg-[var(--color-surface)] text-[var(--color-text-base)] p-6 shadow-[var(--shadow-glow)] max-w-6xl mx-auto mt-8 border border-[var(--color-border)]">
+      <div className="relative bg-[var(--color-surface)] text-[var(--color-text-base)] p-6 shadow-[var(--shadow-glow)] w-full mx-auto mt-8 border border-[var(--color-border)]">
         <h1 className="flex items-baseline gap-2 text-2xl font-bold text-[var(--color-primary)] mb-4">
           シンセ
           <span className="text-xl font-normal">one</span>
@@ -238,7 +238,10 @@ const Synth1 = forwardRef<Synth1Handle>(() => {
         </h3>
         <div className="space-y-2 p-4">
           {notes.map((note, noteIndex) => (
-            <div key={noteIndex} className="flex items-center gap-2">
+            <div
+              key={noteIndex}
+              className="flex items-center justify-center gap-2"
+            >
               <div className="w-8 text-right text-sm text-[var(--color-text-muted)]">
                 {note}
               </div>
@@ -264,14 +267,34 @@ const Synth1 = forwardRef<Synth1Handle>(() => {
           ))}
         </div>
 
-        {keyboardIsOpen && (
-          <div>
-            <button
-              onClick={toggleKeyboard}
-              className="absolute bottom-4 right-4 bg-[var(--color-primary)] text-white rounded-lg p-2 shadow-lg"
+        <h3 className="text-lg text-[var(--color-accent)] font-semibold mb-2 flex items-center">
+          Keyboard
+          <button
+            onClick={toggleKeyboard}
+            className="p-0 hover:opacity-80 focus:outline-none bg-[#161b22] shadow-none"
+            aria-label="Toggle keyboard"
+          >
+            <svg
+              className={`w-6 h-6 ml-2 transition-transform ${
+                keyboardIsOpen ? "rotate-180" : ""
+              }`}
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="var(--color-accent)"
+              strokeWidth="3"
             >
-              Hide Keys
-            </button>
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
+          </button>
+        </h3>
+
+        {keyboardIsOpen && (
+          <div className="mb-4">
             <Piano
               noteRange={{ first: firstNote, last: lastNote }}
               onPlayNote={playNote}
@@ -279,16 +302,6 @@ const Synth1 = forwardRef<Synth1Handle>(() => {
               width={1000}
               keyboardShortcuts={keyboardShortcuts}
             />
-          </div>
-        )}
-        {!keyboardIsOpen && (
-          <div>
-            <button
-              onClick={toggleKeyboard}
-              className="absolute bottom-4 right-4 bg-[var(--color-primary)] text-white rounded-lg p-2 shadow-lg"
-            >
-              Keyboard
-            </button>
           </div>
         )}
       </div>

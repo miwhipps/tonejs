@@ -16,29 +16,29 @@ const Transport = () => {
     setIsPlaying(!isPlaying);
   };
   return (
-    <div className="fixed bottom-0 left-0 w-full text-gray-700 text-center p-4">
+    <div className="fixed bottom-4 left-4 text-gray-700 text-center p-4">
       <button
         onClick={handleTransportToggle}
-        className=" text-[var(--color-text-base)] hover:text-[var(--color-accent)] border-gray-900 border-1"
+        className="  text-[var(--color-base)] hover:text-[var(--color-text-base)] border-gray-900 border-1"
       >
         <svg
           viewBox="0 0 24 24"
           fill="currentColor"
           xmlns="http://www.w3.org/2000/svg"
-          className="w-8 h-8"
+          className="w-12 h-12"
         >
           <path d="M8 5v14l11-7z" />
         </svg>
       </button>
       <button
         onClick={handleTransportToggle}
-        className=" text-[var(--color-text-base)] hover:text-[var(--color-accent)]  border-gray-900 border-1"
+        className="  text-[var(--color-base)] hover:text-[var(--color-text-base)] border-gray-900 border-1"
       >
         <svg
           viewBox="0 0 24 24"
           fill="currentColor"
           xmlns="http://www.w3.org/2000/svg"
-          className="w-8 h-8"
+          className="w-12 h-12"
         >
           <rect x="6" y="6" width="12" height="12" rx="2" />
         </svg>
