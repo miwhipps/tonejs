@@ -16,7 +16,7 @@ const Transport = () => {
     setIsPlaying(!isPlaying);
   };
   return (
-    <div className="fixed bottom-4 left-4 text-gray-700 text-center p-4">
+    <div className="fixed bottom-4 right-4 text-gray-700 text-center p-4">
       <button
         onClick={handleTransportToggle}
         className="  text-[var(--color-base)] hover:text-[var(--color-text-base)] border-gray-900 border-1"

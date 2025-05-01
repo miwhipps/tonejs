@@ -114,7 +114,7 @@ const Synth1 = forwardRef<Synth1Handle>(() => {
 
   return (
     <>
-      <div className="relative bg-[var(--color-surface)] text-[var(--color-text-base)] p-6 shadow-[var(--shadow-glow)] w-full mx-auto mt-8 border border-[var(--color-border)]">
+      <div className=" bg-[var(--color-surface)] text-[var(--color-text-base)] p-6 shadow-[var(--shadow-glow)] mx-8 my-8 border border-[var(--color-border)]">
         <h1 className="flex items-baseline gap-2 text-2xl font-bold text-[var(--color-primary)] mb-4">
           シンセ
           <span className="text-xl font-normal">one</span>

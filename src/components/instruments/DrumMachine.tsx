@@ -84,7 +84,7 @@ const DrumMachine = () => {
   }, [sampler, isLoaded, sequence]);
 
   return (
-    <div className="bg-[var(--color-surface)] text-[var(--color-text-base)] p-6 shadow-[var(--shadow-glow)] w-full mx-auto mt-8 border border-[var(--color-border)]">
+    <div className="bg-[var(--color-surface)] text-[var(--color-text-base)] p-6 shadow-[var(--shadow-glow)] mx-8 border border-[var(--color-border)]">
       <h1 className="text-xl font-bold mb-4">ドラムマシン</h1>
       <div className="flex flex-col-2 items-center justify-center">
         {!isLoaded && <p>Loading samples...</p>}

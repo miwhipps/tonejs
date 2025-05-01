@@ -45,31 +45,36 @@ function App() {
   return (
     <>
       {!audioStarted ? (
-        <button
-          onClick={handleStartAudio}
-          className="flex justify-center items-center mx-auto my-8 p-4 bg-[var(--color-primary)] text-white rounded-xl shadow-lg hover:bg-[var(--color-accent)] transition-colors"
-        >
-          🔊 Start Audio
-        </button>
+        <div className="bg-[url(/public/images/duga-bg.png)] bg-cover bg-center min-h-full w-screen">
+          <button
+            onClick={handleStartAudio}
+            className="flex justify-center items-center mx-auto p-4 bg-[var(--color-primary)] text-white rounded-xl shadow-lg hover:bg-[var(--color-accent)] transition-colors"
+          >
+            🔊 Start Audio
+          </button>
+        </div>
       ) : (
         <>
-          <div className="fixed top-4 right-4 text-gray-700 text-center p-4">
-            <img
-              src={dugaLogo}
-              alt="Duga Logo"
-              className="mx-auto my-8 w-32 h-32 rounded-full shadow-[var(--shadow-glow)] scale-3d"
-              style={{
-                filter: "drop-shadow(0 0 10px rgba(255, 255, 255, 0.5))",
-              }}
-            />
+          <div className="bg-[url(/public/images/duga-bg.png)] bg-cover bg-center h-full w-screen py-8">
+            <div className="fixed top-4 right-4 text-gray-700 text-center">
+              <img
+                src={dugaLogo}
+                alt="Duga Logo"
+                className="mx-auto w-24 h-24 rounded-full  scale-3d"
+                style={{
+                  filter: "drop-shadow(0 0 10px rgba(255, 255, 255, 0.5))",
+                }}
+              />
+              <p className="text-m text-gray-500 mt-3">Transmit</p>
+            </div>
+            <DrumMachine />
+            <Synth1 ref={synthRef} />
+            <div className="flex flex-col-2 items-center">
+              <Chorus ref={chorusRef} />
+              <Phaser ref={phaserRef} />
+            </div>
+            <Transport />
           </div>
-          <DrumMachine />
-          <Synth1 ref={synthRef} />
-          <div className="flex flex-col-2 items-center">
-            <Chorus ref={chorusRef} />
-            <Phaser ref={phaserRef} />
-          </div>
-          <Transport />
         </>
       )}
     </>
