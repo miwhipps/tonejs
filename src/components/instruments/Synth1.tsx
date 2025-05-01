@@ -8,12 +8,28 @@ export type Synth1Handle = {
   trigger: (note: string, time?: Tone.Unit.Time) => void;
 };
 
-const Synth1 = forwardRef<Synth1Handle>(() => {
+const Synth1 = forwardRef<Synth1Handle, object>((_, ref) => {
   const notes = useMemo(
     () => ["C4", "D4", "E4", "F4", "G4", "A4", "B4", "C5"],
     []
   );
   const [synth] = useState(() => new Tone.Synth());
+
+  useEffect(() => {
+    if (ref) {
+      if (typeof ref === "function") {
+        ref({
+          getSynth: () => synth,
+          trigger: (note, time) => synth.triggerAttackRelease(note, "8n", time),
+        });
+      } else {
+        ref.current = {
+          getSynth: () => synth,
+          trigger: (note, time) => synth.triggerAttackRelease(note, "8n", time),
+        };
+      }
+    }
+  }, [ref, synth]);
 
   // Synth configuration
   const [config, setConfig] = useState({
@@ -294,7 +310,7 @@ const Synth1 = forwardRef<Synth1Handle>(() => {
         </h3>
 
         {keyboardIsOpen && (
-          <div className="mb-4">
+          <div className="flex justify-center my-4">
             <Piano
               noteRange={{ first: firstNote, last: lastNote }}
               onPlayNote={playNote}
