@@ -1,39 +1,52 @@
 import * as Tone from "tone";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 const Transport = () => {
+  const transport = Tone.getTransport();
   const [isPlaying, setIsPlaying] = useState(false);
   const [bpm, setBpm] = useState(Tone.Transport.bpm.value);
 
-  const handleTransportToggle = () => {
+  const handleTransportToggle = useCallback(() => {
     if (isPlaying) {
-      Tone.Transport.stop();
+      transport.stop();
     } else {
-      Tone.Transport.start();
+      transport.start();
     }
-    setIsPlaying(!isPlaying);
-  };
+    setIsPlaying((prev) => !prev);
+  }, [isPlaying, transport]);
 
   const handleBpmChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newBpm = parseInt(e.target.value, 10);
     if (!isNaN(newBpm)) {
       setBpm(newBpm);
-      Tone.Transport.bpm.value = newBpm;
+      transport.bpm.value = newBpm;
     }
   };
+
+  // Handle spacebar press to toggle transport
+  useEffect(() => {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (event.key === " ") {
+        event.preventDefault();
+        handleTransportToggle();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyPress);
+    return () => window.removeEventListener("keydown", handleKeyPress);
+  }, [handleTransportToggle, isPlaying]); // Include isPlaying to get updated state
 
   return (
     <div className="fixed bottom-3 right-3 text-gray-700 text-center p-3 space-y-2">
       <div className="flex justify-center gap-2">
         <div>
-          {/* <label className="block text-sm mb-1">Tempo (BPM):</label> */}
           <input
             type="number"
             min="30"
             max="300"
             value={bpm}
             onChange={handleBpmChange}
-            className="w-32 h-24 text-center text-5xl rounded border border-[var(--color-border)] bg-[var(--color-background)] p-1"
+            className="w-32 h-24 text-center text-5xl font-light rounded border border-[var(--color-border)] bg-[var(--color-background)] p-1"
           />
         </div>
         <button

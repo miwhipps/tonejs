@@ -1,5 +1,4 @@
 import "./App.css";
-import * as Tone from "tone";
 import { useState, useRef, useEffect } from "react";
 import Synth1, { Synth1Handle } from "./components/instruments/Synth1.tsx";
 import Chorus, { ChorusHandle } from "./components/fx/Chorus.tsx";
@@ -32,14 +31,8 @@ function App() {
   }, [audioStarted]);
 
   // Handle audio context start
-  const handleStartAudio = async () => {
-    try {
-      await Tone.start();
-      console.log("AudioContext state:", Tone.getContext().state); // Should be "running"
-      setAudioStarted(true);
-    } catch (error) {
-      console.error("Error starting audio:", error);
-    }
+  const handleStartAudio = () => {
+    setAudioStarted(true);
   };
 
   const handleKeyPress = (event: { key: string }) => {
