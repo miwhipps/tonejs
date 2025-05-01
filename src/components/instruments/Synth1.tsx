@@ -4,16 +4,19 @@ import { useState, useEffect, forwardRef, useMemo } from "react";
 import "react-piano/build/styles.css";
 
 export type Synth1Handle = {
-  getSynth: () => Tone.Synth;
+  getSynth: () => Tone.PolySynth;
   trigger: (note: string, time?: Tone.Unit.Time) => void;
 };
+
+type BasicOscillatorType = "sine" | "square" | "triangle" | "sawtooth";
+type Octave = "C1" | "C2" | "C3" | "C4" | "C5" | "C6" | "C7" | "C8";
 
 const Synth1 = forwardRef<Synth1Handle, object>((_, ref) => {
   const notes = useMemo(
     () => ["C4", "D4", "E4", "F4", "G4", "A4", "B4", "C5"],
     []
   );
-  const [synth] = useState(() => new Tone.Synth());
+  const [synth] = useState(() => new Tone.PolySynth());
 
   useEffect(() => {
     if (ref) {
@@ -33,9 +36,9 @@ const Synth1 = forwardRef<Synth1Handle, object>((_, ref) => {
 
   // Synth configuration
   const [config, setConfig] = useState({
-    frequency: "C5",
+    frequency: "C5" as Octave,
     detune: 0,
-    oscillatorType: "triangle" as Tone.ToneOscillatorType,
+    oscillatorType: "triangle" as BasicOscillatorType,
     oscillatorFreq: 440,
     envelopeAttack: 0.005,
     envelopeDecay: 0.1,
@@ -46,18 +49,20 @@ const Synth1 = forwardRef<Synth1Handle, object>((_, ref) => {
   });
 
   // Initialize synth
-  useEffect(() => {
-    synth.oscillator.type = config.oscillatorType;
-    synth.oscillator.frequency.value = config.oscillatorFreq;
-    synth.volume.value = config.volume;
-    synth.frequency.value = config.frequency;
-    synth.detune.value = config.detune;
-    synth.envelope.attack = config.envelopeAttack;
-    synth.envelope.decay = config.envelopeDecay;
-    synth.envelope.sustain = config.envelopeSustain;
-    synth.envelope.release = config.envelopeRelease;
-    synth.portamento = config.portamento;
-  }, [config, synth]);
+  synth.set({
+    oscillator: {
+      type: config.oscillatorType,
+    },
+    volume: config.volume,
+    detune: config.detune,
+    envelope: {
+      attack: config.envelopeAttack,
+      decay: config.envelopeDecay,
+      sustain: config.envelopeSustain,
+      release: config.envelopeRelease,
+    },
+    portamento: config.portamento,
+  });
 
   // Update synth parameters when config changes
   const handleChange = (
@@ -89,8 +94,9 @@ const Synth1 = forwardRef<Synth1Handle, object>((_, ref) => {
     synth.triggerAttack(note);
   };
 
-  const stopNote = () => {
-    synth.triggerRelease();
+  const stopNote = (midiNumber: number) => {
+    const note = Tone.Frequency(midiNumber, "midi").toNote();
+    synth.triggerRelease(note);
   };
 
   const steps = 32; // Number of steps in the sequencer
@@ -156,11 +162,8 @@ const Synth1 = forwardRef<Synth1Handle, object>((_, ref) => {
               </select>
             </label>
             <label className="flex flex-col">
-              <span>Frequency:</span>
-              <input
-                type="range"
-                max="1000"
-                step="1"
+              <span>Detune:</span>
+              <select
                 name="oscillatorFreq"
                 value={config.oscillatorFreq}
                 onChange={handleChange}
@@ -168,19 +171,7 @@ const Synth1 = forwardRef<Synth1Handle, object>((_, ref) => {
               />
             </label>
             <label className="flex flex-col">
-              <span>Detune:</span>
-              <input
-                type="range"
-                max="100"
-                step="1"
-                name="detune"
-                value={config.detune}
-                onChange={handleChange}
-                className="accent-[var(--color-primary)]"
-              />
-            </label>
-            <label className="flex flex-col">
-              <span>Note:</span>
+              <span>Octave:</span>
               <input
                 type="text"
                 name="frequency"

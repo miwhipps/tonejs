@@ -117,6 +117,7 @@ function App() {
               <Chorus ref={chorusRef} />
               <Phaser ref={phaserRef} />
             </div>
+            <div className="h-[150px]"></div>
             <Transport />
           </div>
         </>
