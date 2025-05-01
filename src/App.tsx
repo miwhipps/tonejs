@@ -42,15 +42,39 @@ function App() {
     }
   };
 
+  const handleKeyPress = (event: { key: string }) => {
+    if (event.key === "Enter") {
+      handleStartAudio();
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyPress);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyPress);
+    };
+  }, []);
+
   return (
     <>
       {!audioStarted ? (
-        <div className="bg-[url(/public/images/duga-bg.png)] bg-cover bg-center min-h-full w-screen">
+        <div className="flex items-center bg-[url(/public/images/duga-bg.png)] bg-cover bg-center h-screen w-screen">
+          <img
+            src={dugaLogo}
+            alt="Duga Logo"
+            className="mx-auto w-42 h-42 rounded-full  scale-3d"
+            style={{
+              filter: "drop-shadow(0 0 10px rgba(255, 255, 255, 0.5))",
+            }}
+          />
+          <p className="text-6xl text-white border-8 mt-3">Transmit</p>
           <button
             onClick={handleStartAudio}
-            className="flex justify-center items-center mx-auto p-4 bg-[var(--color-primary)] text-white rounded-xl shadow-lg hover:bg-[var(--color-accent)] transition-colors"
+            onKeyDown={handleKeyPress}
+            className="mx-auto p-4 bg-[#656565] text-white text-6xl rounded-xl shadow-lg hover:bg-[var(--color-accent)] transition-colors"
           >
-            🔊 Start Audio
+            ↵
           </button>
         </div>
       ) : (

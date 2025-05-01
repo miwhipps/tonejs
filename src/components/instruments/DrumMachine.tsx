@@ -84,7 +84,7 @@ const DrumMachine = () => {
   }, [sampler, isLoaded, sequence]);
 
   return (
-    <div className="bg-[var(--color-surface)] text-[var(--color-text-base)] p-6 shadow-[var(--shadow-glow)] mx-8 border border-[var(--color-border)]">
+    <div className="bg-[var(--color-surface)] text-[var(--color-text-base)] p-6 shadow-xl mx-6 border border-[var(--color-border)]">
       <h1 className="text-xl font-bold mb-4">ドラムマシン</h1>
       <div className="flex flex-col-2 items-center justify-center">
         {!isLoaded && <p>Loading samples...</p>}
@@ -92,49 +92,49 @@ const DrumMachine = () => {
           <div className="grid grid-cols-4 gap-4 max-w-150 mx-auto">
             <button
               onClick={() => playSample("C3")}
-              className="p-4 bg-gray-500 text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
+              className="p-4 bg-[#656565] text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
             >
               BD LMClip
             </button>
             <button
               onClick={() => playSample("D3")}
-              className="p-4 bg-gray-500 text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
+              className="p-4 bg-[#656565] text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
             >
               BD 909ish
             </button>
             <button
               onClick={() => playSample("E3")}
-              className="p-4 bg-gray-500 text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
+              className="p-4 bg-[#656565] text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
             >
               BD Bounce
             </button>
             <button
               onClick={() => playSample("F3")}
-              className="p-4 bg-gray-500 text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
+              className="p-4 bg-[#656565] text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
             >
               SD Verb
             </button>
             <button
               onClick={() => playSample("G3")}
-              className="p-4 bg-gray-500 text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
+              className="p-4 bg-[#656565] text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
             >
               CP 909 Hi
             </button>
             <button
               onClick={() => playSample("A3")}
-              className="p-4 bg-gray-500 text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
+              className="p-4 bg-[#656565] text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
             >
               Huh
             </button>
             <button
               onClick={() => playSample("B3")}
-              className="p-4 bg-gray-500 text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
+              className="p-4 bg-[#656565] text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
             >
               CH 909Tail
             </button>
             <button
               onClick={() => playSample("C3")}
-              className="p-4 bg-gray-500 text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
+              className="p-4 bg-[#656565] text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
             >
               OH Anlg Hi
             </button>

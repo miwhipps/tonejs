@@ -54,7 +54,7 @@ const Phaser = forwardRef<PhaserHandle>((_, ref) => {
   };
 
   return (
-    <div className="bg-[var(--color-surface)] text-[var(--color-text-base)] p-6 shadow-[var(--shadow-glow)] w-full ml-4 mr-8 border border-[var(--color-border)]">
+    <div className="bg-[var(--color-surface)] text-[var(--color-text-base)] p-6 shadow-xl w-full ml-3 mr-6 border border-[var(--color-border)]">
       <h2 className="text-2xl font-bold text-[var(--color-primary)] mb-4">
         Phaser Effect
       </h2>
