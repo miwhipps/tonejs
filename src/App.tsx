@@ -7,7 +7,6 @@ import DrumMachine from "./components/instruments/DrumMachine.tsx";
 import Transport from "./components/transport/Transport.tsx";
 import dugaLogo from "/src/images/duga-logo-SCREENSHOT.png";
 import * as Tone from "tone";
-import TestKnob from "./components/TestKnob.tsx";
 
 function App() {
   const synthRef = useRef<Synth1Handle | null>(null);
@@ -120,7 +119,6 @@ function App() {
             </div>
             <div className="h-[150px]"></div>
             <Transport />
-            <TestKnob />
           </div>
         </>
       )}

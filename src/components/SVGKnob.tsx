@@ -7,7 +7,7 @@ type SvgKnobProps = {
   sensitivity?: number; // How fast it changes with drag
 };
 
-const SvgKnob: React.FC<SvgKnobProps> = ({
+const SVGKnob: React.FC<SvgKnobProps> = ({
   size = 100,
   value,
   onChange,
@@ -77,4 +77,4 @@ const SvgKnob: React.FC<SvgKnobProps> = ({
   );
 };
 
-export default SvgKnob;
+export default SVGKnob;
