@@ -2,7 +2,20 @@ import { useEffect, useState } from "react";
 
 import * as Tone from "tone";
 
-const drumNotes = ["C3", "D3", "E3", "F3", "G3", "A3", "B3", "C4"];
+const drumNotes = [
+  "C3",
+  "D3",
+  "E3",
+  "F3",
+  "G3",
+  "A3",
+  "B3",
+  "C4",
+  "D4",
+  "E4",
+  "F4",
+  "G4",
+];
 const steps = 16;
 
 const DrumMachine = () => {
@@ -14,14 +27,18 @@ const DrumMachine = () => {
   useEffect(() => {
     const newSampler = new Tone.Sampler(
       {
-        C3: "/samples/BD_LMClip_MPC2K.wav",
-        D3: "/samples/BD_909ish_MPC2K.wav",
-        E3: "/samples/BD_Bounce_MPC2K.wav",
-        F3: "/samples/SD_Verb_MPC2K.wav",
-        G3: "/samples/CP_909_Hi_MPC2K.wav",
-        A3: "/samples/Huh_MPC2K.wav",
-        B3: "/samples/CH_909Tail_MPC2K.wav",
-        C4: "/samples/OH_Anlg_Hi_MPC2K.wav",
+        C3: "/samples/909-Lo-Kit/BD-909-Sat-A-04.wav",
+        D3: "/samples/909-Lo-Kit/BD-909-Tap-Sat-02-BB01.wav",
+        E3: "/samples/909-Lo-Kit/BD-909-Various-01.wav",
+        F3: "/samples/909-Lo-Kit/BD-909-Various-06.wav",
+        G3: "/samples/909-Lo-Kit/BD-909-Various-49.wav",
+        A3: "/samples/909-Lo-Kit/CH-909-Clean-02.wav",
+        B3: "/samples/909-Lo-Kit/OH-909-Clean-01.wav",
+        C4: "/samples/909-Lo-Kit/Ride-909-Clean-A-01.wav",
+        D4: "/samples/909-Lo-Kit/Ride-909-MPC.wav",
+        E4: "/samples/909-Lo-Kit/SD-909-Various-26.wav",
+        F4: "/samples/909-Lo-Kit/SD-909-Various-27.wav",
+        G4: "/samples/909-Lo-Kit/SD-909-Various-30.wav",
       },
       {
         onload: () => {
@@ -94,49 +111,73 @@ const DrumMachine = () => {
               onClick={() => playSample("C3")}
               className="p-4 bg-[#656565] text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
             >
-              BD LMClip
+              BD-909-Sat-A
             </button>
             <button
               onClick={() => playSample("D3")}
               className="p-4 bg-[#656565] text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
             >
-              BD 909ish
+              BD-909-Sat-B
             </button>
             <button
               onClick={() => playSample("E3")}
               className="p-4 bg-[#656565] text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
             >
-              BD Bounce
+              D-909-Various-01
             </button>
             <button
               onClick={() => playSample("F3")}
               className="p-4 bg-[#656565] text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
             >
-              SD Verb
+              BD-909-Various-06
             </button>
             <button
               onClick={() => playSample("G3")}
               className="p-4 bg-[#656565] text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
             >
-              CP 909 Hi
+              BD-909-Various-49
             </button>
             <button
               onClick={() => playSample("A3")}
               className="p-4 bg-[#656565] text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
             >
-              Huh
+              CH-909-Clean-02
             </button>
             <button
               onClick={() => playSample("B3")}
               className="p-4 bg-[#656565] text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
             >
-              CH 909Tail
+              OH-909-Clean-01
             </button>
             <button
-              onClick={() => playSample("C3")}
+              onClick={() => playSample("C4")}
               className="p-4 bg-[#656565] text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
             >
-              OH Anlg Hi
+              Ride-909-Clean-A-01
+            </button>
+            <button
+              onClick={() => playSample("D4")}
+              className="p-4 bg-[#656565] text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
+            >
+              Ride-909-MPC
+            </button>
+            <button
+              onClick={() => playSample("E4")}
+              className="p-4 bg-[#656565] text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
+            >
+              SD-909-Various-26
+            </button>
+            <button
+              onClick={() => playSample("F4")}
+              className="p-4 bg-[#656565] text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
+            >
+              SD-909-Various-27.wav
+            </button>
+            <button
+              onClick={() => playSample("G4")}
+              className="p-4 bg-[#656565] text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
+            >
+              SD-909-Various-30
             </button>
           </div>
         </div>
