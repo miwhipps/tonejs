@@ -7,6 +7,7 @@ import DrumMachine from "./components/instruments/DrumMachine.tsx";
 import Transport from "./components/transport/Transport.tsx";
 import dugaLogo from "/src/images/duga-logo-SCREENSHOT.png";
 import * as Tone from "tone";
+import MonoSynth from "./components/instruments/MonoSynth.tsx";
 
 function App() {
   const synthRef = useRef<PolyHandle | null>(null);
@@ -112,6 +113,7 @@ function App() {
               </div>
             </div>
             <DrumMachine />
+            <MonoSynth />
             <PolySynth ref={synthRef} />
             <div className="flex flex-col-2 gap-4 mx-6">
               <Chorus ref={chorusRef} />
