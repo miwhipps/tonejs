@@ -5,8 +5,9 @@ import Chorus, { ChorusHandle } from "./components/fx/Chorus.tsx";
 import Phaser, { PhaserHandle } from "./components/fx/Phaser.tsx";
 import DrumMachine from "./components/instruments/DrumMachine.tsx";
 import Transport from "./components/transport/Transport.tsx";
-import dugaLogo from "/public/images/duga-logo-SCREENSHOT.png";
+import dugaLogo from "/src/images/duga-logo-SCREENSHOT.png";
 import * as Tone from "tone";
+import TestKnob from "./components/TestKnob.tsx";
 
 function App() {
   const synthRef = useRef<Synth1Handle | null>(null);
@@ -70,7 +71,7 @@ function App() {
   return (
     <>
       {!audioStarted ? (
-        <div className="flex items-center bg-[url(/public/images/duga-bg.png)] bg-cover bg-center h-screen w-screen">
+        <div className="flex items-center bg-[url(/src/images/duga-bg.png)] bg-cover bg-center h-screen w-screen">
           <img
             src={dugaLogo}
             alt="Duga Logo"
@@ -90,7 +91,7 @@ function App() {
         </div>
       ) : (
         <>
-          <div className="bg-[url(/public/images/duga-bg.png)] bg-cover bg-center h-full w-screen py-2">
+          <div className="bg-[url(/src/images/duga-bg.png)] bg-cover bg-center h-full w-screen py-2">
             <div className="fixed top-4 right-4 text-gray-700 text-center">
               <img
                 src={dugaLogo}
@@ -119,6 +120,7 @@ function App() {
             </div>
             <div className="h-[150px]"></div>
             <Transport />
+            <TestKnob />
           </div>
         </>
       )}

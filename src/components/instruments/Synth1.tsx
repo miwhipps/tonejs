@@ -1,7 +1,5 @@
 import * as Tone from "tone";
-import { Piano, KeyboardShortcuts } from "react-piano";
 import { useState, useEffect, forwardRef, useMemo } from "react";
-import "react-piano/build/styles.css";
 
 export type Synth1Handle = {
   getSynth: () => Tone.PolySynth;
@@ -76,28 +74,28 @@ const Synth1 = forwardRef<Synth1Handle, object>((_, ref) => {
     }));
   };
 
-  const firstNote = 24;
-  const lastNote = 41;
+  // const firstNote = 24;
+  // const lastNote = 41;
   const [keyboardIsOpen, setKeyboardIsOpen] = useState(false);
   const toggleKeyboard = () => {
     setKeyboardIsOpen((prev) => !prev);
   };
 
-  const keyboardShortcuts = KeyboardShortcuts.create({
-    firstNote,
-    lastNote,
-    keyboardConfig: KeyboardShortcuts.HOME_ROW,
-  });
+  // const keyboardShortcuts = KeyboardShortcuts.create({
+  //   firstNote,
+  //   lastNote,
+  //   keyboardConfig: KeyboardShortcuts.HOME_ROW,
+  // });
 
-  const playNote = (midiNumber: number) => {
-    const note = Tone.Frequency(midiNumber, "midi").toNote();
-    synth.triggerAttack(note);
-  };
+  // const playNote = (midiNumber: number) => {
+  //   const note = Tone.Frequency(midiNumber, "midi").toNote();
+  //   synth.triggerAttack(note);
+  // };
 
-  const stopNote = (midiNumber: number) => {
-    const note = Tone.Frequency(midiNumber, "midi").toNote();
-    synth.triggerRelease(note);
-  };
+  // const stopNote = (midiNumber: number) => {
+  //   const note = Tone.Frequency(midiNumber, "midi").toNote();
+  //   synth.triggerRelease(note);
+  // };
 
   const steps = 32; // Number of steps in the sequencer
 
@@ -300,17 +298,7 @@ const Synth1 = forwardRef<Synth1Handle, object>((_, ref) => {
           </button>
         </h3>
 
-        {keyboardIsOpen && (
-          <div className="flex justify-center my-4">
-            <Piano
-              noteRange={{ first: firstNote, last: lastNote }}
-              onPlayNote={playNote}
-              onStopNote={stopNote}
-              width={1000}
-              keyboardShortcuts={keyboardShortcuts}
-            />
-          </div>
-        )}
+        {keyboardIsOpen && <div className="flex justify-center my-4"></div>}
       </div>
     </>
   );
