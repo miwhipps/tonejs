@@ -1,20 +1,36 @@
 import * as Tone from "tone";
 import { useState, useEffect, forwardRef, useMemo } from "react";
 
-export type Synth1Handle = {
+export type PolyHandle = {
   getSynth: () => Tone.PolySynth;
   trigger: (note: string, time?: Tone.Unit.Time) => void;
 };
 
 type BasicOscillatorType = "sine" | "square" | "triangle" | "sawtooth";
+type FilterType =
+  | "lowpass"
+  | "highpass"
+  | "bandpass"
+  | "lowshelf"
+  | "highshelf"
+  | "notch"
+  | "allpass"
+  | "peaking";
+// type FilterRolloff = -12 | -24 | -48 | -96;
 type Octave = "C1" | "C2" | "C3" | "C4" | "C5" | "C6" | "C7" | "C8";
 
-const Synth1 = forwardRef<Synth1Handle, object>((_, ref) => {
+const PolySynth = forwardRef<PolyHandle, object>((_, ref) => {
   const notes = useMemo(
     () => ["C4", "D4", "E4", "F4", "G4", "A4", "B4", "C5"],
     []
   );
   const [synth] = useState(() => new Tone.PolySynth());
+  const [filter] = useState(() => new Tone.Filter(800, "lowpass"));
+
+  useEffect(() => {
+    synth.connect(filter);
+    filter.toDestination();
+  }, [synth, filter]);
 
   useEffect(() => {
     if (ref) {
@@ -40,10 +56,14 @@ const Synth1 = forwardRef<Synth1Handle, object>((_, ref) => {
     oscillatorFreq: 440,
     envelopeAttack: 0.005,
     envelopeDecay: 0.1,
-    envelopeSustain: 0.9,
-    envelopeRelease: 1,
+    envelopeSustain: 0.1,
+    envelopeRelease: 0.1,
     portamento: 0,
     volume: 0,
+    filterFrequency: 800,
+    filterType: "lowpass" as FilterType,
+    // filterQ: 0,
+    // filterRolloff: -12 as FilterRolloff,
   });
 
   // Initialize synth
@@ -62,6 +82,14 @@ const Synth1 = forwardRef<Synth1Handle, object>((_, ref) => {
     portamento: config.portamento,
   });
 
+  // Initialize filter
+  filter.set({
+    frequency: config.filterFrequency,
+    type: config.filterType,
+    // Q: config.filterQ,
+    // rolloff: config.filterRolloff,
+  });
+
   // Update synth parameters when config changes
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -74,12 +102,13 @@ const Synth1 = forwardRef<Synth1Handle, object>((_, ref) => {
     }));
   };
 
-  // const firstNote = 24;
-  // const lastNote = 41;
   const [keyboardIsOpen, setKeyboardIsOpen] = useState(false);
   const toggleKeyboard = () => {
     setKeyboardIsOpen((prev) => !prev);
   };
+
+  // const firstNote = 24;
+  // const lastNote = 41;
 
   // const keyboardShortcuts = KeyboardShortcuts.create({
   //   firstNote,
@@ -181,6 +210,54 @@ const Synth1 = forwardRef<Synth1Handle, object>((_, ref) => {
                 className="bg-[var(--color-background)] border border-[var(--color-border)] rounded-lg p-2"
               />
             </label>
+          </div>
+        </section>
+
+        <section className="mb-6">
+          <h3 className="text-lg text-[var(--color-accent)] font-semibold mb-2">
+            Filter
+          </h3>
+          <div className="flex flex-col gap-3">
+            <label className="flex flex-col">
+              <span>Type:</span>
+              <select
+                name="filterType"
+                value={config.filterType}
+                onChange={handleChange}
+                className="bg-[var(--color-background)] border border-[var(--color-border)] rounded-lg p-2"
+              >
+                <option value="lowpass">Lowpass</option>
+                <option value="highpass">Highpass</option>
+                <option value="bandpass">Bandpass</option>
+                <option value="notch">Notch</option>
+              </select>
+            </label>
+            <label className="flex flex-col">
+              <span>Cutoff Frequency:</span>
+              <input
+                type="range"
+                min="100"
+                max="10000"
+                step="10"
+                name="filterFrequency"
+                value={config.filterFrequency}
+                onChange={handleChange}
+                className="accent-[var(--color-primary)]"
+              />
+            </label>
+            {/* <label className="flex flex-col">
+              <span>Resonance:</span>
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.02"
+                name="filterQ"
+                value={config.filterQ}
+                onChange={handleChange}
+                className="accent-[var(--color-primary)]"
+              />
+            </label> */}
           </div>
         </section>
 
@@ -307,4 +384,4 @@ const Synth1 = forwardRef<Synth1Handle, object>((_, ref) => {
   );
 });
 
-export default Synth1;
+export default PolySynth;

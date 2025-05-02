@@ -55,14 +55,14 @@ const Phaser = forwardRef<PhaserHandle>((_, ref) => {
   //   };
 
   return (
-    <div className="bg-[var(--color-surface)] text-[var(--color-text-base)] p-6 shadow-xl border border-[var(--color-border)]">
+    <div className="bg-[var(--color-surface)] text-[var(--color-text-base)] p-6 shadow-xl border border-[var(--color-border)] min-w-50">
       <h2 className="text-2xl font-bold text-[var(--color-primary)] mb-4">
         Phaser
       </h2>
 
-      <section className="mb-6">
-        <label className="flex flex-col mb-3">
-          <span className="text-[var(--color-accent)]">Frequency:</span>
+      <section className="mb-6 flex flex-col gap-4">
+        <label className="flex flex-col items-center">
+          <span className="text-[var(--color-accent)] mb-2">Frequency:</span>
           <SVGKnobMedium
             min={0.1}
             max={5}
@@ -77,8 +77,8 @@ const Phaser = forwardRef<PhaserHandle>((_, ref) => {
           </span>
         </label>
 
-        <label className="flex flex-col mb-3">
-          <span className="text-[var(--color-accent)]">Octaves:</span>
+        <label className="flex flex-col items-center">
+          <span className="text-[var(--color-accent)] mb-2">Octaves:</span>
           <SVGKnobMedium
             min={0}
             max={6}
@@ -93,8 +93,10 @@ const Phaser = forwardRef<PhaserHandle>((_, ref) => {
           </span>
         </label>
 
-        <label className="flex flex-col mb-3">
-          <span className="text-[var(--color-accent)]">Base Frequency:</span>
+        <label className="flex flex-col items-center">
+          <span className="text-[var(--color-accent)] mb-2">
+            Base Frequency:
+          </span>
           <SVGKnobMedium
             min={100}
             max={1000}
@@ -109,8 +111,8 @@ const Phaser = forwardRef<PhaserHandle>((_, ref) => {
           </span>
         </label>
 
-        <label className="flex flex-col">
-          <span className="text-[var(--color-accent)]">Wet:</span>
+        <label className="flex flex-col items-center">
+          <span className="text-[var(--color-accent)] mb-2">Wet:</span>
           <SVGKnobMedium
             min={0}
             max={1}

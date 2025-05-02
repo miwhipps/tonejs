@@ -1,6 +1,6 @@
 import "./App.css";
 import { useState, useRef, useEffect } from "react";
-import Synth1, { Synth1Handle } from "./components/instruments/Synth1.tsx";
+import PolySynth, { PolyHandle } from "./components/instruments/PolySynth";
 import Chorus, { ChorusHandle } from "./components/fx/Chorus.tsx";
 import Phaser, { PhaserHandle } from "./components/fx/Phaser.tsx";
 import DrumMachine from "./components/instruments/DrumMachine.tsx";
@@ -9,7 +9,7 @@ import dugaLogo from "/src/images/duga-logo-SCREENSHOT.png";
 import * as Tone from "tone";
 
 function App() {
-  const synthRef = useRef<Synth1Handle | null>(null);
+  const synthRef = useRef<PolyHandle | null>(null);
   const chorusRef = useRef<ChorusHandle | null>(null);
   const phaserRef = useRef<PhaserHandle | null>(null);
 
@@ -83,7 +83,7 @@ function App() {
           <button
             onClick={handleStartAudio}
             onKeyDown={handleKeyPress}
-            className="mx-auto p-4 bg-[#656565] text-white text-6xl rounded-xl shadow-lg hover:bg-[var(--color-accent)] transition-colors"
+            className="mx-auto p-4 h-35 w-25 bg-[#656565] text-white text-6xl rounded-xl shadow-lg hover:bg-[var(--color-accent)] transition-colors"
           >
             ↵
           </button>
@@ -112,8 +112,8 @@ function App() {
               </div>
             </div>
             <DrumMachine />
-            <Synth1 ref={synthRef} />
-            <div className="flex flex-col-2 items-center">
+            <PolySynth ref={synthRef} />
+            <div className="flex flex-col-2 gap-4 mx-6">
               <Chorus ref={chorusRef} />
               <Phaser ref={phaserRef} />
             </div>

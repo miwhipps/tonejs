@@ -1,86 +1,80 @@
-import { useRef, useEffect } from "react";
+import React, { useRef, useState } from "react";
 
-type Props = {
+type SVGKnobProps = {
   value: number;
   onChange: (value: number) => void;
   min?: number;
   max?: number;
   step?: number;
   sensitivity?: number;
+  size?: number;
 };
 
-const SVGKnobMedium: React.FC<Props> = ({
+const SVGKnobMedium: React.FC<SVGKnobProps> = ({
+  size = 75,
   value,
   onChange,
-  min = 0,
-  max = 1,
-  step = 0.01,
   sensitivity = 0.005,
 }) => {
-  const startYRef = useRef<number | null>(null);
-  const startValRef = useRef<number>(value);
+  const knobRef = useRef<SVGSVGElement>(null);
+  const [dragging, setDragging] = useState(false);
+  const lastY = useRef(0);
 
-  const handleMouseDown = (e: React.MouseEvent) => {
-    startYRef.current = e.clientY;
-    startValRef.current = value;
+  const radius = size / 2;
+  const angle = value * 270 - 225;
+  // -225° to 45°
+  const knobX = radius + radius * 0.7 * Math.cos((angle * Math.PI) / 180);
+  const knobY = radius + radius * 0.7 * Math.sin((angle * Math.PI) / 180);
 
-    const handleMouseMove = (moveEvent: MouseEvent) => {
-      if (startYRef.current !== null) {
-        const deltaY = startYRef.current - moveEvent.clientY;
-        let newValue = startValRef.current + deltaY * sensitivity;
-        newValue = Math.max(
-          min,
-          Math.min(max, Math.round(newValue / step) * step)
-        );
-        onChange(parseFloat(newValue.toFixed(4)));
-      }
-    };
-
-    const handleMouseUp = () => {
-      startYRef.current = null;
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseup", handleMouseUp);
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseup", handleMouseUp);
+  const startDrag = (e: React.MouseEvent) => {
+    setDragging(true);
+    lastY.current = e.clientY;
   };
 
-  useEffect(() => {
-    startValRef.current = value;
-  }, [value]);
+  const stopDrag = () => setDragging(false);
+
+  const handleMouseMove = (e: MouseEvent) => {
+    if (!dragging) return;
+    const dy = lastY.current - e.clientY; // Up = positive
+    const delta = dy * sensitivity;
+    let newVal = value + delta;
+    newVal = Math.min(Math.max(newVal, 0), 1);
+    onChange(newVal);
+    lastY.current = e.clientY;
+  };
+
+  React.useEffect(() => {
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", stopDrag);
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", stopDrag);
+    };
+  }, [dragging, value]);
 
   return (
     <svg
-      width="60"
-      height="60"
-      viewBox="0 0 100 100"
-      onMouseDown={handleMouseDown}
+      ref={knobRef}
+      width={size}
+      height={size}
+      onMouseDown={startDrag}
       style={{ cursor: "ns-resize", userSelect: "none" }}
     >
       <circle
-        cx="50"
-        cy="50"
-        r="40"
-        stroke="#666"
-        strokeWidth="10"
-        fill="#222"
+        cx={radius}
+        cy={radius}
+        r={radius - 5}
+        fill="#333"
+        stroke="#999"
+        strokeWidth="3"
       />
       <line
-        x1="50"
-        y1="50"
-        x2={
-          50 +
-          30 *
-            Math.cos(((value - min) / (max - min)) * 2 * Math.PI - Math.PI / 2)
-        }
-        y2={
-          50 +
-          30 *
-            Math.sin(((value - min) / (max - min)) * 2 * Math.PI - Math.PI / 2)
-        }
+        x1={radius}
+        y1={radius}
+        x2={knobX}
+        y2={knobY}
         stroke="#fff"
-        strokeWidth="4"
+        strokeWidth="3"
         strokeLinecap="round"
       />
     </svg>

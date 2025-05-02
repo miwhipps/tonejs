@@ -47,7 +47,7 @@ const Chorus = forwardRef<ChorusHandle>((_, ref) => {
   //   };
 
   return (
-    <div className="bg-[var(--color-surface)] text-[var(--color-text-base)] p-6 shadow-xl border border-[var(--color-border)]">
+    <div className="bg-[var(--color-surface)] text-[var(--color-text-base)] p-6 shadow-xl border border-[var(--color-border)] min-w-50">
       <h2 className="text-2xl font-bold text-[var(--color-primary)] mb-4">
         Chorus
       </h2>
