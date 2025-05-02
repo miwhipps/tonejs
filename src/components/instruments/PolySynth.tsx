@@ -199,13 +199,17 @@ const PolySynth = forwardRef<PolyHandle, object>((_, ref) => {
                 <span>Detune:</span>
                 <input
                   type="range"
-                  max="1"
+                  max="1200"
+                  min="0"
                   step="0.02"
                   name="oscillatorFreq"
                   value={config.oscillatorFreq}
                   onChange={handleChange}
                   className="accent-[var(--color-accent)]"
                 />
+                <span className="text-[var(--color-text-muted)] text-sm">
+                  {config.oscillatorFreq.toFixed(1)} Hz
+                </span>
               </label>
               <label className="flex flex-col gap-4">
                 <span>Octave:</span>
@@ -243,14 +247,17 @@ const PolySynth = forwardRef<PolyHandle, object>((_, ref) => {
                 <span>Cutoff Frequency:</span>
                 <input
                   type="range"
-                  min="100"
-                  max="10000"
+                  min="40"
+                  max="20000"
                   step="10"
                   name="filterFrequency"
                   value={config.filterFrequency}
                   onChange={handleChange}
                   className="accent-[var(--color-accent)]"
                 />
+                <span className="text-[var(--color-text-muted)] text-sm">
+                  {config.filterFrequency.toFixed(1)} Hz
+                </span>
               </label>
               {/* <label className="flex flex-col">
               <span>Resonance:</span>
@@ -289,6 +296,13 @@ const PolySynth = forwardRef<PolyHandle, object>((_, ref) => {
                     onChange={handleChange}
                     className="accent-[var(--color-accent)]"
                   />
+                  <span className="text-[var(--color-text-muted)] text-sm">
+                    {(
+                      config[
+                        `envelope${param}` as keyof typeof config
+                      ] as number
+                    ).toFixed(2)}
+                  </span>
                 </label>
               ))}
             </div>
@@ -310,6 +324,9 @@ const PolySynth = forwardRef<PolyHandle, object>((_, ref) => {
                   onChange={handleChange}
                   className="accent-[var(--color-accent)]"
                 />
+                <span className="text-[var(--color-text-muted)] text-sm">
+                  {config.portamento.toFixed(1)}
+                </span>
               </label>
               <label className="flex flex-col gap-4">
                 <span>Volume:</span>
@@ -323,6 +340,9 @@ const PolySynth = forwardRef<PolyHandle, object>((_, ref) => {
                   onChange={handleChange}
                   className="accent-[var(--color-accent)]"
                 />
+                <span className="text-[var(--color-text-muted)] text-sm">
+                  {config.volume.toFixed(1)} dB
+                </span>
               </label>
             </div>
           </section>
