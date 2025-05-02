@@ -347,91 +347,100 @@ const PolySynth = forwardRef<PolyHandle, object>((_, ref) => {
             </div>
           </section>
         </div>
-        <h3 className="text-lg text-[var(--color-accent)] font-semibold mb-2 flex items-center">
-          Sequencer
-          <button
-            onClick={toggleSequencer}
-            className="p-0 hover:opacity-80 focus:outline-none bg-[#161b22] shadow-none"
-            aria-label="Toggle keyboard"
-          >
-            <svg
-              className={`w-6 h-6 ml-2 transition-transform ${
-                sequencerIsOpen ? "rotate-180" : ""
-              }`}
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="var(--color-accent)"
-              strokeWidth="3"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M19 9l-7 7-7-7"
-              />
-            </svg>
-          </button>
-        </h3>
-        {sequencerIsOpen && (
-          <div className="space-y-2 p-4">
-            {notes.map((note, noteIndex) => (
-              <div
-                key={noteIndex}
-                className="flex items-center justify-center gap-2"
+        <div className="">
+          <div className="flex justify-between">
+            <h3 className="text-lg text-[var(--color-accent)] font-semibold mb-2 flex items-center">
+              Sequencer
+              <button
+                onClick={toggleSequencer}
+                className="p-0 hover:opacity-80 focus:outline-none bg-[#161b22] shadow-none"
+                aria-label="Toggle sequencer"
               >
-                <div className="w-8 text-right text-sm text-[var(--color-text-muted)]">
-                  {note}
-                </div>
-                <div className="flex gap-1">
-                  {patterns[noteIndex].map((active, stepIndex) => (
-                    <button
-                      key={stepIndex}
-                      onClick={() => toggleStep(noteIndex, stepIndex)}
-                      className={`w-6 h-6 rounded ${
-                        active
-                          ? "bg-[var(--color-primary)]"
-                          : "bg-[var(--color-surface)]"
-                      } border border-[var(--color-border)]
-            ${
-              currentStep === stepIndex
-                ? "ring-2 ring-[var(--color-accent)]"
-                : ""
-            }`}
-                    />
-                  ))}
-                </div>
-              </div>
-            ))}
+                <svg
+                  className={`w-6 h-6 ml-2 transition-transform ${
+                    sequencerIsOpen ? "rotate-180" : ""
+                  }`}
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="var(--color-accent)"
+                  strokeWidth="3"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </button>
+            </h3>
+
+            <h3 className="text-lg text-[var(--color-accent)] font-semibold mb-2 flex items-center">
+              Keyboard
+              <button
+                onClick={toggleKeyboard}
+                className="p-0 hover:opacity-80 focus:outline-none bg-[#161b22] shadow-none"
+                aria-label="Toggle keyboard"
+              >
+                <svg
+                  className={`w-6 h-6 ml-2 transition-transform ${
+                    keyboardIsOpen ? "rotate-180" : ""
+                  }`}
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="var(--color-accent)"
+                  strokeWidth="3"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </button>
+            </h3>
           </div>
-        )}
 
-        <h3 className="text-lg text-[var(--color-accent)] font-semibold mb-2 flex items-center">
-          Keyboard
-          <button
-            onClick={toggleKeyboard}
-            className="p-0 hover:opacity-80 focus:outline-none bg-[#161b22] shadow-none"
-            aria-label="Toggle keyboard"
-          >
-            <svg
-              className={`w-6 h-6 ml-2 transition-transform ${
-                keyboardIsOpen ? "rotate-180" : ""
-              }`}
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="var(--color-accent)"
-              strokeWidth="3"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M19 9l-7 7-7-7"
-              />
-            </svg>
-          </button>
-        </h3>
+          {sequencerIsOpen && (
+            <div className="space-y-2 p-4">
+              {notes.map((note, noteIndex) => (
+                <div
+                  key={noteIndex}
+                  className="flex items-center justify-center gap-2"
+                >
+                  <div className="w-8 text-right text-sm text-[var(--color-text-muted)]">
+                    {note}
+                  </div>
+                  <div className="flex gap-1">
+                    {patterns[noteIndex].map((active, stepIndex) => (
+                      <button
+                        key={stepIndex}
+                        onClick={() => toggleStep(noteIndex, stepIndex)}
+                        className={`w-6 h-6 rounded ${
+                          active
+                            ? "bg-[var(--color-primary)]"
+                            : "bg-[var(--color-surface)]"
+                        } border border-[var(--color-border)]
+                ${
+                  currentStep === stepIndex
+                    ? "ring-2 ring-[var(--color-accent)]"
+                    : ""
+                }`}
+                      />
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
 
-        {keyboardIsOpen && <div className="flex justify-center my-4"></div>}
+          {keyboardIsOpen && (
+            <div className="flex justify-center my-4">
+              {/* Keyboard component goes here */}
+            </div>
+          )}
+        </div>
       </div>
     </>
   );
