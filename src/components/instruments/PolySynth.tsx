@@ -1,5 +1,6 @@
 import * as Tone from "tone";
 import { useState, useEffect, forwardRef, useMemo } from "react";
+// import { SVGKnobMedium } from "@/components/knobs/SVGKnobMedium";
 
 export type PolyHandle = {
   getSynth: () => Tone.PolySynth;
@@ -175,12 +176,12 @@ const PolySynth = forwardRef<PolyHandle, object>((_, ref) => {
           <span className="text-xl font-normal">one</span>
         </h1>
         <div className="flex justify-between mb-4">
-          <section className="mb-6 w-full flex flex-col items-start">
+          <section className="mb-6 w-full flex flex-col justify-between items-start">
             <h3 className="text-lg text-[var(--color-accent)] font-semibold mb-2">
               Oscillator
             </h3>
-            <div className="flex flex-col gap-3">
-              <label className="flex flex-col">
+            <div className="flex flex-col gap-3 w-full pr-6">
+              <label className="flex flex-col gap-4 w-full">
                 <span>Type:</span>
                 <select
                   name="oscillatorType"
@@ -194,7 +195,7 @@ const PolySynth = forwardRef<PolyHandle, object>((_, ref) => {
                   <option value="triangle">Triangle</option>
                 </select>
               </label>
-              <label className="flex flex-col">
+              <label className="flex flex-col gap-4">
                 <span>Detune:</span>
                 <input
                   type="range"
@@ -203,10 +204,10 @@ const PolySynth = forwardRef<PolyHandle, object>((_, ref) => {
                   name="oscillatorFreq"
                   value={config.oscillatorFreq}
                   onChange={handleChange}
-                  className="accent-[var(--color-primary)]"
+                  className="accent-[var(--color-accent)]"
                 />
               </label>
-              <label className="flex flex-col">
+              <label className="flex flex-col gap-4">
                 <span>Octave:</span>
                 <input
                   type="text"
@@ -219,12 +220,12 @@ const PolySynth = forwardRef<PolyHandle, object>((_, ref) => {
             </div>
           </section>
 
-          <section className="mb-6 w-full flex flex-col items-start">
+          <section className="mb-6 w-full flex flex-col items-start ">
             <h3 className="text-lg text-[var(--color-accent)] font-semibold mb-2">
               Filter
             </h3>
-            <div className="flex flex-col gap-3">
-              <label className="flex flex-col">
+            <div className="flex flex-col gap-3 w-full pr-6">
+              <label className="flex flex-col gap-4">
                 <span>Type:</span>
                 <select
                   name="filterType"
@@ -238,7 +239,7 @@ const PolySynth = forwardRef<PolyHandle, object>((_, ref) => {
                   <option value="notch">Notch</option>
                 </select>
               </label>
-              <label className="flex flex-col">
+              <label className="flex flex-col gap-4">
                 <span>Cutoff Frequency:</span>
                 <input
                   type="range"
@@ -248,7 +249,7 @@ const PolySynth = forwardRef<PolyHandle, object>((_, ref) => {
                   name="filterFrequency"
                   value={config.filterFrequency}
                   onChange={handleChange}
-                  className="accent-[var(--color-primary)]"
+                  className="accent-[var(--color-accent)]"
                 />
               </label>
               {/* <label className="flex flex-col">
@@ -267,13 +268,13 @@ const PolySynth = forwardRef<PolyHandle, object>((_, ref) => {
             </div>
           </section>
 
-          <section className="mb-6 w-full flex flex-col items-start">
+          <section className="mb-6 w-full flex flex-col items-start ">
             <h3 className="text-lg text-[var(--color-accent)] font-semibold mb-2">
               Envelope
             </h3>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-3 w-full pr-6">
               {["Attack", "Decay", "Sustain", "Release"].map((param) => (
-                <label key={param} className="flex flex-col">
+                <label key={param} className="flex flex-col gap-4">
                   <span>{param}:</span>
                   <input
                     type="range"
@@ -293,12 +294,12 @@ const PolySynth = forwardRef<PolyHandle, object>((_, ref) => {
             </div>
           </section>
 
-          <section className="mb-6 w-full flex flex-col items-start">
+          <section className="mb-6 w-full flex flex-col items-start ">
             <h3 className="text-lg text-[var(--color-accent)] font-semibold mb-2">
               Control
             </h3>
-            <div className="grid grid-cols-2 gap-4">
-              <label className="flex flex-col">
+            <div className="grid grid-cols-2 gap-3 w-full pr-6">
+              <label className="flex flex-col gap-4">
                 <span>Portamento:</span>
                 <input
                   type="range"
@@ -307,10 +308,10 @@ const PolySynth = forwardRef<PolyHandle, object>((_, ref) => {
                   name="portamento"
                   value={config.portamento}
                   onChange={handleChange}
-                  className="accent-[var(--color-primary)]"
+                  className="accent-[var(--color-accent)]"
                 />
               </label>
-              <label className="flex flex-col">
+              <label className="flex flex-col gap-4">
                 <span>Volume:</span>
                 <input
                   type="range"
@@ -320,7 +321,7 @@ const PolySynth = forwardRef<PolyHandle, object>((_, ref) => {
                   name="volume"
                   value={config.volume}
                   onChange={handleChange}
-                  className="accent-[var(--color-primary)]"
+                  className="accent-[var(--color-accent)]"
                 />
               </label>
             </div>
