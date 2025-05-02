@@ -111,72 +111,96 @@ const DrumMachine = () => {
               onClick={() => playSample("C3")}
               className="p-4 bg-[#656565] text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
             >
+              <span className="text-2xl">C3</span>
+              <br />
               BD-909-Sat-A
             </button>
             <button
               onClick={() => playSample("D3")}
               className="p-4 bg-[#656565] text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
             >
+              <span className="text-2xl">D3</span>
+              <br />
               BD-909-Sat-B
             </button>
             <button
               onClick={() => playSample("E3")}
               className="p-4 bg-[#656565] text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
             >
+              <span className="text-2xl">E3</span>
+              <br />
               D-909-Various-01
             </button>
             <button
               onClick={() => playSample("F3")}
               className="p-4 bg-[#656565] text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
             >
+              <span className="text-2xl">F3</span>
+              <br />
               BD-909-Various-06
             </button>
             <button
               onClick={() => playSample("G3")}
               className="p-4 bg-[#656565] text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
             >
+              <span className="text-2xl">G3</span>
+              <br />
               BD-909-Various-49
             </button>
             <button
               onClick={() => playSample("A3")}
               className="p-4 bg-[#656565] text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
             >
+              <span className="text-2xl">A3</span>
+              <br />
               CH-909-Clean-02
             </button>
             <button
               onClick={() => playSample("B3")}
               className="p-4 bg-[#656565] text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
             >
+              <span className="text-2xl">B3</span>
+              <br />
               OH-909-Clean-01
             </button>
             <button
               onClick={() => playSample("C4")}
               className="p-4 bg-[#656565] text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
             >
+              <span className="text-2xl">C4</span>
+              <br />
               Ride-909-Clean-A-01
             </button>
             <button
               onClick={() => playSample("D4")}
               className="p-4 bg-[#656565] text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
             >
+              <span className="text-2xl">D4</span>
+              <br />
               Ride-909-MPC
             </button>
             <button
               onClick={() => playSample("E4")}
               className="p-4 bg-[#656565] text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
             >
+              <span className="text-2xl">E4</span>
+              <br />
               SD-909-Various-26
             </button>
             <button
               onClick={() => playSample("F4")}
               className="p-4 bg-[#656565] text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
             >
-              SD-909-Various-27.wav
+              <span className="text-2xl">F4</span>
+              <br />
+              SD-909-Various-27
             </button>
             <button
               onClick={() => playSample("G4")}
               className="p-4 bg-[#656565] text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
             >
+              <span className="text-2xl">G4</span>
+              <br />
               SD-909-Various-30
             </button>
           </div>
