@@ -1,6 +1,6 @@
 import * as Tone from "tone";
 import { useState, useEffect, useCallback } from "react";
-import SVGKnob from "../SVGKnob";
+import SVGKnobLarge from "../SVGKnobLarge";
 
 const Transport = () => {
   const transport = Tone.getTransport();
@@ -46,7 +46,7 @@ const Transport = () => {
     <div className="fixed bottom-3 right-3 text-gray-700 text-center p-3 space-y-2">
       <div className="flex justify-center gap-2 bg-[#161b22] p-2 shadow-lg border border-[var(--color-border)]">
         <div className="space-y-2 flex justify-center items-center rotate-270">
-          <SVGKnob
+          <SVGKnobLarge
             value={swing}
             onChange={(value) => {
               setSwing(value);

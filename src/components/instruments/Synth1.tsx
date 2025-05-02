@@ -161,7 +161,10 @@ const Synth1 = forwardRef<Synth1Handle, object>((_, ref) => {
             </label>
             <label className="flex flex-col">
               <span>Detune:</span>
-              <select
+              <input
+                type="range"
+                max="1"
+                step="0.02"
                 name="oscillatorFreq"
                 value={config.oscillatorFreq}
                 onChange={handleChange}

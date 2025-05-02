@@ -4,8 +4,9 @@ import {
   useImperativeHandle,
   useEffect,
   useState,
-  ChangeEvent,
+  //   ChangeEvent,
 } from "react";
+import SVGKnobMedium from "../SVGKnobMedium";
 
 export type ChorusHandle = {
   getChorus: () => Tone.Chorus;
@@ -37,83 +38,77 @@ const Chorus = forwardRef<ChorusHandle>((_, ref) => {
     [chorus]
   );
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setConfig((prev) => ({
-      ...prev,
-      [name]: +value,
-    }));
-  };
+  //   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  //     const { name, value } = e.target;
+  //     setConfig((prev) => ({
+  //       ...prev,
+  //       [name]: +value,
+  //     }));
+  //   };
 
   return (
-    <div className="bg-[var(--color-surface)] text-[var(--color-text-base)] p-6 shadow-xl w-full ml-6 mr-3 border border-[var(--color-border)]">
+    <div className="bg-[var(--color-surface)] text-[var(--color-text-base)] p-6 shadow-xl border border-[var(--color-border)]">
       <h2 className="text-2xl font-bold text-[var(--color-primary)] mb-4">
-        Chorus Effect
+        Chorus
       </h2>
 
-      <section className="mb-6">
-        <label className="flex flex-col mb-3">
-          <span className="text-[var(--color-accent)]">Frequency:</span>
-          <input
-            type="range"
-            min="0.1"
-            max="10"
-            step="0.1"
-            name="frequency"
+      <section className="mb-6 flex flex-col gap-4">
+        <label className="flex flex-col items-center">
+          <span className="text-[var(--color-accent)] mb-2">Frequency:</span>
+          <SVGKnobMedium
             value={config.frequency}
-            onChange={handleChange}
-            className="accent-[var(--color-primary)] bg-[var(--color-surface)] border border-[var(--color-border)] rounded-lg p-2"
+            min={0.2}
+            max={20}
+            step={0.1}
+            onChange={(value) =>
+              setConfig((prev) => ({ ...prev, frequency: value }))
+            }
           />
           <span className="text-[var(--color-text-muted)]">
             {config.frequency.toFixed(1)} Hz
           </span>
         </label>
 
-        <label className="flex flex-col mb-3">
-          <span className="text-[var(--color-accent)]">Delay Time:</span>
-          <input
-            type="range"
-            min="0"
-            max="10"
-            step="0.1"
-            name="delayTime"
+        <label className="flex flex-col items-center">
+          <span className="text-[var(--color-accent)] mb-2">Delay Time:</span>
+          <SVGKnobMedium
             value={config.delayTime}
-            onChange={handleChange}
-            className="accent-[var(--color-primary)] bg-[var(--color-surface)] border border-[var(--color-border)] rounded-lg p-2"
+            min={0}
+            max={20}
+            step={0.1}
+            onChange={(value) =>
+              setConfig((prev) => ({ ...prev, delayTime: value }))
+            }
           />
           <span className="text-[var(--color-text-muted)]">
             {config.delayTime.toFixed(1)} ms
           </span>
         </label>
 
-        <label className="flex flex-col mb-3">
-          <span className="text-[var(--color-accent)]">Depth:</span>
-          <input
-            type="range"
-            min="0"
-            max="1"
-            step="0.01"
-            name="depth"
+        <label className="flex flex-col items-center">
+          <span className="text-[var(--color-accent)] mb-2">Depth:</span>
+          <SVGKnobMedium
             value={config.depth}
-            onChange={handleChange}
-            className="accent-[var(--color-primary)] bg-[var(--color-surface)] border border-[var(--color-border)] rounded-lg p-2"
+            min={0}
+            max={1}
+            step={0.01}
+            onChange={(value) =>
+              setConfig((prev) => ({ ...prev, depth: value }))
+            }
           />
           <span className="text-[var(--color-text-muted)]">
             {config.depth.toFixed(2)}
           </span>
         </label>
 
-        <label className="flex flex-col">
-          <span className="text-[var(--color-accent)]">Wet:</span>
-          <input
-            type="range"
-            min="0"
-            max="1"
-            step="0.01"
-            name="wet"
+        <label className="flex flex-col items-center">
+          <span className="text-[var(--color-accent)] mb-2">Wet:</span>
+          <SVGKnobMedium
             value={config.wet}
-            onChange={handleChange}
-            className="accent-[var(--color-primary)] bg-[var(--color-surface)] border border-[var(--color-border)] rounded-lg p-2"
+            min={0}
+            max={1}
+            step={0.01}
+            onChange={(value) => setConfig((prev) => ({ ...prev, wet: value }))}
           />
           <span className="text-[var(--color-text-muted)]">
             {config.wet.toFixed(2)}

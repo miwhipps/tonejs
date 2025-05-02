@@ -4,8 +4,9 @@ import {
   useImperativeHandle,
   useEffect,
   useState,
-  ChangeEvent,
+  //   ChangeEvent,
 } from "react";
+import SVGKnobMedium from "../SVGKnobMedium";
 
 export type PhaserHandle = {
   getPhaser: () => Tone.Phaser;
@@ -45,32 +46,31 @@ const Phaser = forwardRef<PhaserHandle>((_, ref) => {
     [phaser]
   );
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setConfig((prev) => ({
-      ...prev,
-      [name]: +value,
-    }));
-  };
+  //   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  //     const { name, value } = e.target;
+  //     setConfig((prev) => ({
+  //       ...prev,
+  //       [name]: +value,
+  //     }));
+  //   };
 
   return (
-    <div className="bg-[var(--color-surface)] text-[var(--color-text-base)] p-6 shadow-xl w-full ml-3 mr-6 border border-[var(--color-border)]">
+    <div className="bg-[var(--color-surface)] text-[var(--color-text-base)] p-6 shadow-xl border border-[var(--color-border)]">
       <h2 className="text-2xl font-bold text-[var(--color-primary)] mb-4">
-        Phaser Effect
+        Phaser
       </h2>
 
       <section className="mb-6">
         <label className="flex flex-col mb-3">
           <span className="text-[var(--color-accent)]">Frequency:</span>
-          <input
-            type="range"
-            min="0.1"
-            max="5"
-            step="0.1"
-            name="frequency"
+          <SVGKnobMedium
+            min={0.1}
+            max={5}
+            step={0.1}
             value={config.frequency}
-            onChange={handleChange}
-            className="accent-[var(--color-primary)] bg-[var(--color-surface)] border border-[var(--color-border)] rounded-lg p-2"
+            onChange={(value) =>
+              setConfig((prev) => ({ ...prev, frequency: value }))
+            }
           />
           <span className="text-[var(--color-text-muted)]">
             {config.frequency.toFixed(1)} Hz
@@ -79,15 +79,14 @@ const Phaser = forwardRef<PhaserHandle>((_, ref) => {
 
         <label className="flex flex-col mb-3">
           <span className="text-[var(--color-accent)]">Octaves:</span>
-          <input
-            type="range"
-            min="0"
-            max="6"
-            step="1"
-            name="octaves"
+          <SVGKnobMedium
+            min={0}
+            max={6}
+            step={1}
             value={config.octaves}
-            onChange={handleChange}
-            className="accent-[var(--color-primary)] bg-[var(--color-surface)] border border-[var(--color-border)] rounded-lg p-2"
+            onChange={(value) =>
+              setConfig((prev) => ({ ...prev, octaves: value }))
+            }
           />
           <span className="text-[var(--color-text-muted)]">
             {config.octaves}
@@ -96,15 +95,14 @@ const Phaser = forwardRef<PhaserHandle>((_, ref) => {
 
         <label className="flex flex-col mb-3">
           <span className="text-[var(--color-accent)]">Base Frequency:</span>
-          <input
-            type="range"
-            min="100"
-            max="1000"
-            step="10"
-            name="baseFrequency"
+          <SVGKnobMedium
+            min={100}
+            max={1000}
+            step={10}
             value={config.baseFrequency}
-            onChange={handleChange}
-            className="accent-[var(--color-primary)] bg-[var(--color-surface)] border border-[var(--color-border)] rounded-lg p-2"
+            onChange={(value) =>
+              setConfig((prev) => ({ ...prev, baseFrequency: value }))
+            }
           />
           <span className="text-[var(--color-text-muted)]">
             {config.baseFrequency.toFixed(0)} Hz
@@ -113,15 +111,12 @@ const Phaser = forwardRef<PhaserHandle>((_, ref) => {
 
         <label className="flex flex-col">
           <span className="text-[var(--color-accent)]">Wet:</span>
-          <input
-            type="range"
-            min="0"
-            max="1"
-            step="0.01"
-            name="wet"
+          <SVGKnobMedium
+            min={0}
+            max={1}
+            step={0.01}
             value={config.wet}
-            onChange={handleChange}
-            className="accent-[var(--color-primary)] bg-[var(--color-surface)] border border-[var(--color-border)] rounded-lg p-2"
+            onChange={(value) => setConfig((prev) => ({ ...prev, wet: value }))}
           />
           <span className="text-[var(--color-text-muted)]">
             {config.wet.toFixed(2)}
