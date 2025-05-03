@@ -5,6 +5,9 @@ type SvgKnobProps = {
   value: number; // 0 to 1
   onChange: (val: number) => void;
   sensitivity?: number; // How fast it changes with drag
+  min?: number;
+  max?: number;
+  step?: number;
 };
 
 const SVGKnobLarge: React.FC<SvgKnobProps> = ({
@@ -18,7 +21,7 @@ const SVGKnobLarge: React.FC<SvgKnobProps> = ({
   const lastY = useRef(0);
 
   const radius = size / 2;
-  const angle = value * 270 - 135; // -135° to 135°
+  const angle = value * 270 - 225;
   const knobX = radius + radius * 0.7 * Math.cos((angle * Math.PI) / 180);
   const knobY = radius + radius * 0.7 * Math.sin((angle * Math.PI) / 180);
 
