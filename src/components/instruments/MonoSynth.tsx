@@ -208,7 +208,7 @@ const MonoSynth = () => {
                 name="filterType"
                 value={config.filterType}
                 onChange={handleChange}
-                className="bg-[var(--color-background)] border border-[var(--color-border)] rounded-lg p-2"
+                className="bg-[var(--color-background)] border border-[var(--color-border)] rounded-lg p-2 text-[var(--color-text)]"
               >
                 {[
                   "lowpass",
@@ -227,18 +227,18 @@ const MonoSynth = () => {
               </select>
             </label>
 
-            <div className="flex flex-col gap-3 w-full pr-6 ">
-              <label className="flex flex-col gap-2 ">
-                <span>Rolloff:</span>
-                <div className="flex gap-2 justify-center">
+            <div className="flex flex-col gap-3 w-full ">
+              <div className="flex flex-col gap-2">
+                <span className="text-[var(--color-text)]">Rolloff:</span>
+                <div className="flex gap-2 justify-between">
                   {rolloffValues.map((val) => (
                     <button
                       key={val}
-                      className={`px-3 py-1 rounded border text-sm transition 
+                      className={`px-3 py-1 rounded border text-sm transition shadow-none w-full
                         ${
                           config.filterRolloff === val
-                            ? "bg-blue-600 text-white border-blue-600 no-shadow"
-                            : "bg-transparent text-gray-300 border-gray-500 hover:bg-gray-700"
+                            ? "bg-blue-600 text-[var(--color-text)] border-blue-600"
+                            : "bg-transparent text-[var(--color-text)] border-gray-500 hover:bg-gray-700"
                         }`}
                       onClick={() => handleKnobChange("filterRolloff", val)}
                     >
@@ -246,8 +246,8 @@ const MonoSynth = () => {
                     </button>
                   ))}
                 </div>
-              </label>
-              <div className="flex flex-col gap-3 w-full pr-6">
+              </div>
+              <div className="flex flex-col gap-3 w-full">
                 <label className="flex flex-col gap-2">
                   <span>Res:</span>
                   <div className="flex mt-2 justify-center">

@@ -1,6 +1,5 @@
 import * as Tone from "tone";
 import { useState, useEffect, forwardRef, useMemo } from "react";
-// import { SVGKnobMedium } from "@/components/knobs/SVGKnobMedium";
 
 export type PolyHandle = {
   getSynth: () => Tone.PolySynth;
@@ -17,7 +16,7 @@ type FilterType =
   | "notch"
   | "allpass"
   | "peaking";
-// type FilterRolloff = -12 | -24 | -48 | -96;
+type FilterRolloff = -12 | -24 | -48 | -96;
 type Octave = "C1" | "C2" | "C3" | "C4" | "C5" | "C6" | "C7" | "C8";
 
 const PolySynth = forwardRef<PolyHandle, object>((_, ref) => {
@@ -63,8 +62,8 @@ const PolySynth = forwardRef<PolyHandle, object>((_, ref) => {
     volume: 0,
     filterFrequency: 800,
     filterType: "lowpass" as FilterType,
-    // filterQ: 0,
-    // filterRolloff: -12 as FilterRolloff,
+    filterQ: 0,
+    filterRolloff: -12 as FilterRolloff,
   });
 
   // Initialize synth
@@ -87,8 +86,8 @@ const PolySynth = forwardRef<PolyHandle, object>((_, ref) => {
   filter.set({
     frequency: config.filterFrequency,
     type: config.filterType,
-    // Q: config.filterQ,
-    // rolloff: config.filterRolloff,
+    Q: config.filterQ,
+    rolloff: config.filterRolloff,
   });
 
   // Update synth parameters when config changes
@@ -114,29 +113,13 @@ const PolySynth = forwardRef<PolyHandle, object>((_, ref) => {
     setSequencerIsOpen((prev) => !prev);
   };
 
-  // const firstNote = 24;
-  // const lastNote = 41;
+  const [stepCount, setStepCount] = useState(16); // Default 16 steps
 
-  // const keyboardShortcuts = KeyboardShortcuts.create({
-  //   firstNote,
-  //   lastNote,
-  //   keyboardConfig: KeyboardShortcuts.HOME_ROW,
-  // });
-
-  // const playNote = (midiNumber: number) => {
-  //   const note = Tone.Frequency(midiNumber, "midi").toNote();
-  //   synth.triggerAttack(note);
-  // };
-
-  // const stopNote = (midiNumber: number) => {
-  //   const note = Tone.Frequency(midiNumber, "midi").toNote();
-  //   synth.triggerRelease(note);
-  // };
-
-  const steps = 32; // Number of steps in the sequencer
+  const stepOptions = [4, 8, 16, 32, 64];
+  // const stepOptions = Array.from({ length: 64 }, (_, i) => i + 1);
 
   const [patterns, setPatterns] = useState(
-    notes.map(() => Array(steps).fill(false)) // Create one pattern for each note
+    notes.map(() => Array(stepCount).fill(false)) // Create one pattern for each note
   );
   const [currentStep, setCurrentStep] = useState(0);
 
@@ -148,6 +131,8 @@ const PolySynth = forwardRef<PolyHandle, object>((_, ref) => {
 
   // Play the sequence
   useEffect(() => {
+    console.log(stepCount);
+
     const seq = new Tone.Sequence(
       (time, step) => {
         setCurrentStep(step);
@@ -157,7 +142,7 @@ const PolySynth = forwardRef<PolyHandle, object>((_, ref) => {
           }
         });
       },
-      Array.from({ length: steps }, (_, i) => i),
+      Array.from({ length: stepCount }, (_, i) => i),
       "16n"
     );
 
@@ -166,7 +151,24 @@ const PolySynth = forwardRef<PolyHandle, object>((_, ref) => {
     return () => {
       seq.dispose();
     };
-  }, [notes, patterns, synth]);
+  }, [notes, patterns, synth, stepCount]);
+
+  const clearSequence = () => {
+    setPatterns(notes.map(() => Array(stepCount).fill(false)));
+  };
+
+  useEffect(() => {
+    setPatterns((prev) =>
+      prev.map((pattern) => {
+        if (pattern.length < stepCount) {
+          return [...pattern, ...Array(stepCount - pattern.length).fill(false)];
+        } else if (pattern.length > stepCount) {
+          return pattern.slice(0, stepCount);
+        }
+        return pattern;
+      })
+    );
+  }, [stepCount]);
 
   return (
     <>
@@ -259,19 +261,6 @@ const PolySynth = forwardRef<PolyHandle, object>((_, ref) => {
                   {config.filterFrequency.toFixed(1)} Hz
                 </span>
               </label>
-              {/* <label className="flex flex-col">
-              <span>Resonance:</span>
-              <input
-                type="range"
-                min="0"
-                max="1"
-                step="0.02"
-                name="filterQ"
-                value={config.filterQ}
-                onChange={handleChange}
-                className="accent-[var(--color-primary)]"
-              />
-            </label> */}
             </div>
           </section>
 
@@ -432,6 +421,24 @@ const PolySynth = forwardRef<PolyHandle, object>((_, ref) => {
                   </div>
                 </div>
               ))}
+              <label className="text-sm font-medium">Steps:</label>
+              <select
+                value={stepCount}
+                onChange={(e) => setStepCount(Number(e.target.value))}
+                className="border rounded px-2 py-1 w-24"
+              >
+                {stepOptions.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+              <button
+                onClick={clearSequence}
+                className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition"
+              >
+                Clear
+              </button>
             </div>
           )}
 

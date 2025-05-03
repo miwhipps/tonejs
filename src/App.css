@@ -25,7 +25,7 @@
   --spacing-96: 24rem;
 
   /* Glow */
-  --shadow-glow: 0 0 10px var(--color-accent);
+  --shadow-glow: 0 0 5px var(--color-accent);
 }
 
 @layer base {
