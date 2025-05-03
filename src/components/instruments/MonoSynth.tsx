@@ -13,7 +13,7 @@ type FilterType =
   | "notch"
   | "allpass"
   | "peaking";
-// type FilterRolloff = -12 | -24 | -48 | -96;
+type FilterRolloff = -12 | -24 | -48 | -96;
 type Octave = "C1" | "C2" | "C3" | "C4" | "C5" | "C6" | "C7" | "C8";
 
 const notes = [
@@ -32,6 +32,8 @@ const notes = [
 ];
 const steps = 16;
 
+const rolloffValues: FilterRolloff[] = [-12, -24, -48, -96];
+
 const MonoSynth = () => {
   const [config, setConfig] = useState({
     frequency: "C4" as Octave,
@@ -44,7 +46,7 @@ const MonoSynth = () => {
     envelopeRelease: 0.3,
     portamento: 0.05,
     volume: -8,
-    filterFrequency: 1200,
+    filterRolloff: -12 as FilterRolloff,
     filterType: "lowpass" as FilterType,
     filterQ: 1.2,
     filterEnvelopeAttack: 0.01,
@@ -74,9 +76,9 @@ const MonoSynth = () => {
         release: config.envelopeRelease,
       },
       filter: {
-        type: config.filterType,
-        frequency: config.filterFrequency,
         Q: config.filterQ,
+        type: config.filterType,
+        rolloff: config.filterRolloff,
       },
       portamento: config.portamento,
     });
@@ -94,6 +96,7 @@ const MonoSynth = () => {
   };
 
   const handleKnobChange = (name: keyof typeof config, value: number) => {
+    console.log(name, value);
     setConfig((prev) => ({
       ...prev,
       [name]: value,
@@ -224,30 +227,39 @@ const MonoSynth = () => {
               </select>
             </label>
 
-            <div className="flex gap-6 items-center">
-              <div className="flex flex-col items-center">
-                <SVGKnobLarge
-                  min={20}
-                  max={20000}
-                  step={1}
-                  value={config.filterFrequency}
-                  onChange={(val) => handleKnobChange("filterFrequency", val)}
-                />
-                <span className="text-sm text-[var(--color-text-muted)] mt-2">
-                  Freq
-                </span>
-              </div>
-              <div className="flex flex-col items-center">
-                <SVGKnobMedium
-                  min={0.1}
-                  max={20}
-                  step={0.1}
-                  value={config.filterQ}
-                  onChange={(val) => handleKnobChange("filterQ", val)}
-                />
-                <span className="text-sm text-[var(--color-text-muted)] mt-2">
-                  Q
-                </span>
+            <div className="flex flex-col gap-3 w-full pr-6 ">
+              <label className="flex flex-col gap-2 ">
+                <span>Rolloff:</span>
+                <div className="flex gap-2 justify-center">
+                  {rolloffValues.map((val) => (
+                    <button
+                      key={val}
+                      className={`px-3 py-1 rounded border text-sm transition 
+                        ${
+                          config.filterRolloff === val
+                            ? "bg-blue-600 text-white border-blue-600 no-shadow"
+                            : "bg-transparent text-gray-300 border-gray-500 hover:bg-gray-700"
+                        }`}
+                      onClick={() => handleKnobChange("filterRolloff", val)}
+                    >
+                      {val} dB
+                    </button>
+                  ))}
+                </div>
+              </label>
+              <div className="flex flex-col gap-3 w-full pr-6">
+                <label className="flex flex-col gap-2">
+                  <span>Res:</span>
+                  <div className="flex mt-2 justify-center">
+                    <SVGKnobLarge
+                      min={0.1}
+                      max={20}
+                      step={0.1}
+                      value={config.filterQ}
+                      onChange={(val) => handleKnobChange("filterQ", val)}
+                    />
+                  </div>
+                </label>
               </div>
             </div>
           </div>
