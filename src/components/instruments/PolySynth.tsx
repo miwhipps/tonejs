@@ -182,7 +182,7 @@ const PolySynth = forwardRef<PolyHandle, object>((_, ref) => {
             </h3>
             <div className="flex flex-col gap-3 w-full pr-6">
               <label className="flex flex-col gap-4 w-full">
-                <span>Type:</span>
+                <span>Waveform:</span>
                 <select
                   name="oscillatorType"
                   value={config.oscillatorType}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as Tone from "tone";
 import SVGKnobMedium from "../SVGKnobMedium";
 
@@ -14,6 +14,22 @@ type FilterType =
   | "peaking";
 // type FilterRolloff = -12 | -24 | -48 | -96;
 type Octave = "C1" | "C2" | "C3" | "C4" | "C5" | "C6" | "C7" | "C8";
+
+const notes = [
+  "C2",
+  "D2",
+  "E2",
+  "F2",
+  "G2",
+  "A2",
+  "B2",
+  "C3",
+  "D3",
+  "E3",
+  "F3",
+  "G3",
+];
+const steps = 16;
 
 const MonoSynth = () => {
   const [config, setConfig] = useState({
@@ -31,28 +47,35 @@ const MonoSynth = () => {
     filterType: "lowpass" as FilterType,
     filterQ: 1.2,
   });
+  const [currentStep, setCurrentStep] = useState<number>(0);
 
-  const synth = new Tone.MonoSynth().toDestination();
+  const synthRef = useRef<Tone.MonoSynth | null>(null);
 
-  synth.set({
-    oscillator: {
-      type: config.oscillatorType,
-    },
-    volume: config.volume,
-    detune: config.detune,
-    envelope: {
-      attack: config.envelopeAttack,
-      decay: config.envelopeDecay,
-      sustain: config.envelopeSustain,
-      release: config.envelopeRelease,
-    },
-    filter: {
-      type: config.filterType,
-      frequency: config.filterFrequency,
-      Q: config.filterQ,
-    },
-    portamento: config.portamento,
-  });
+  useEffect(() => {
+    if (!synthRef.current) {
+      synthRef.current = new Tone.MonoSynth().toDestination();
+    }
+
+    synthRef.current.set({
+      oscillator: {
+        type: config.oscillatorType,
+      },
+      volume: config.volume,
+      detune: config.detune,
+      envelope: {
+        attack: config.envelopeAttack,
+        decay: config.envelopeDecay,
+        sustain: config.envelopeSustain,
+        release: config.envelopeRelease,
+      },
+      filter: {
+        type: config.filterType,
+        frequency: config.filterFrequency,
+        Q: config.filterQ,
+      },
+      portamento: config.portamento,
+    });
+  }, [config]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -72,6 +95,43 @@ const MonoSynth = () => {
     }));
   };
 
+  const [sequence, setSequence] = useState<boolean[][]>(() =>
+    notes.map(() => Array(steps).fill(false))
+  );
+
+  // Toggle a pad on/off
+  const toggleStep = (row: number, col: number) => {
+    setSequence((prev) =>
+      prev.map((r, i) =>
+        i === row ? r.map((val, j) => (j === col ? !val : val)) : r
+      )
+    );
+  };
+
+  // Play the sequence
+  useEffect(() => {
+    if (!synthRef.current) return;
+
+    const seq = new Tone.Sequence(
+      (time, step) => {
+        setCurrentStep(step);
+        notes.forEach((note, rowIndex) => {
+          if (sequence[rowIndex][step] && synthRef.current) {
+            synthRef.current.triggerAttackRelease(note, "8n", time);
+          }
+        });
+      },
+      Array.from({ length: steps }, (_, i) => i),
+      "16n"
+    );
+
+    seq.start(0);
+
+    return () => {
+      seq.dispose();
+    };
+  }, [sequence]);
+
   return (
     <div className=" bg-[var(--color-surface)] text-[var(--color-text-base)] p-6 shadow-xl mx-6 my-6 border border-[var(--color-border)]">
       <h1 className="flex items-baseline gap-2 text-2xl font-bold text-[var(--color-primary)] mb-4">
@@ -84,12 +144,12 @@ const MonoSynth = () => {
           </h3>
           <div className="flex flex-col gap-3 w-full pr-6">
             <label className="flex flex-col gap-2">
-              <span>Oscillator Type:</span>
+              <span>Waveform:</span>
               <select
                 name="oscillatorType"
                 value={config.oscillatorType}
                 onChange={handleChange}
-                className="bg-[var(--color-surface)] text-[var(--color-text)] border border-[var(--color-border)] rounded px-2 py-1"
+                className="bg-[var(--color-background)] border border-[var(--color-border)] rounded-lg p-2"
               >
                 {["sine", "triangle", "square", "sawtooth"].map((type) => (
                   <option key={type} value={type}>
@@ -104,7 +164,7 @@ const MonoSynth = () => {
                 name="frequency"
                 value={config.frequency}
                 onChange={handleChange}
-                className="bg-[var(--color-surface)] text-[var(--color-text)] border border-[var(--color-border)] rounded px-2 py-1"
+                className="bg-[var(--color-background)] border border-[var(--color-border)] rounded-lg p-2"
               >
                 {["C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8"].map(
                   (octave) => (
@@ -123,7 +183,7 @@ const MonoSynth = () => {
                 name="detune"
                 value={config.detune}
                 onChange={handleChange}
-                className="bg-[var(--color-surface)] text-[var(--color-text)] border border-[var(--color-border)] rounded px-2 py-1"
+                className="bg-[var(--color-background)] border border-[var(--color-border)] rounded-lg p-2"
               />
             </label>
           </div>
@@ -154,6 +214,36 @@ const MonoSynth = () => {
             })}
           </div>
         </section>
+        <div className=" space-y-2 p-4">
+          {sequence.map((row, rowIndex) => (
+            <div
+              key={rowIndex}
+              className="flex items-center justify-center gap-2"
+            >
+              <div className="w-8 text-right text-sm text-[var(--color-text-muted)]">
+                {notes[rowIndex]}
+              </div>
+              <div className="flex gap-1">
+                {row.map((active, colIndex) => (
+                  <button
+                    key={colIndex}
+                    onClick={() => toggleStep(rowIndex, colIndex)}
+                    className={`w-6 h-6 rounded items-center ${
+                      active
+                        ? "bg-[var(--color-primary)]"
+                        : "bg-[var(--color-surface)]"
+                    } border border-[var(--color-border)]
+            ${
+              currentStep === colIndex
+                ? "ring-2 ring-[var(--color-accent)]"
+                : ""
+            }`}
+                  />
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
