@@ -114,9 +114,9 @@ const PolySynth = forwardRef<PolyHandle, object>((_, ref) => {
   };
 
   const [stepCount, setStepCount] = useState(16); // Default 16 steps
-
-  const stepOptions = [4, 8, 16, 32, 64];
-  // const stepOptions = Array.from({ length: 64 }, (_, i) => i + 1);
+  // const stepOptions = [4, 8, 16, 32, 64];
+  const stepOptions = Array.from({ length: 32 }, (_, i) => i + 1);
+  // const steps = Array.from({ length: 64 }, (_, i) => i + 1);
 
   const [patterns, setPatterns] = useState(
     notes.map(() => Array(stepCount).fill(false)) // Create one pattern for each note
@@ -402,26 +402,37 @@ const PolySynth = forwardRef<PolyHandle, object>((_, ref) => {
                     {note}
                   </div>
                   <div className="flex gap-1">
-                    {patterns[noteIndex].map((active, stepIndex) => (
-                      <button
-                        key={stepIndex}
-                        onClick={() => toggleStep(noteIndex, stepIndex)}
-                        className={`w-6 h-6 rounded ${
-                          active
-                            ? "bg-[var(--color-primary)]"
-                            : "bg-[var(--color-surface)]"
-                        } border border-[var(--color-border)]
-                ${
-                  currentStep === stepIndex
-                    ? "ring-2 ring-[var(--color-accent)]"
-                    : ""
-                }`}
-                      />
-                    ))}
+                    {Array.from({ length: 32 }, (_, stepIndex) => {
+                      const isActive = stepIndex < stepCount;
+                      const isOn = patterns[noteIndex]?.[stepIndex] ?? false;
+
+                      return (
+                        <button
+                          key={stepIndex}
+                          onClick={() =>
+                            isActive && toggleStep(noteIndex, stepIndex)
+                          }
+                          disabled={!isActive}
+                          className={`w-6 h-6 rounded border border-[var(--color-border)] ${
+                            isActive
+                              ? isOn
+                                ? "bg-[var(--color-primary)]"
+                                : "bg-[var(--color-surface)]"
+                              : "bg-gray-300 opacity-50 cursor-not-allowed"
+                          } ${
+                            currentStep === stepIndex
+                              ? "ring-2 ring-[var(--color-accent)]"
+                              : ""
+                          }`}
+                        />
+                      );
+                    })}
                   </div>
                 </div>
               ))}
+
               <label className="text-sm font-medium">Steps:</label>
+              {/* Step count selector */}
               <select
                 value={stepCount}
                 onChange={(e) => setStepCount(Number(e.target.value))}
