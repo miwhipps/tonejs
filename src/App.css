@@ -8,7 +8,7 @@
   --color-border: #30363d;
 
   /* Accent colours */
-  --color-primary: oklch(70.9% 0.01 56.259);
+  --color-primary: #656565;
   --color-accent: oklch(51.4% 0.222 16.935);
   --color-danger: #ff4081; /* Pink Alert */
 

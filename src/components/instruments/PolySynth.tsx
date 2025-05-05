@@ -115,7 +115,7 @@ const PolySynth = forwardRef<PolyHandle, object>((_, ref) => {
 
   const [stepCount, setStepCount] = useState(16); // Default 16 steps
   // const stepOptions = [4, 8, 16, 32, 64];
-  const stepOptions = Array.from({ length: 32 }, (_, i) => i + 1);
+  // const stepOptions = Array.from({ length: 32 }, (_, i) => i + 1);
   // const steps = Array.from({ length: 64 }, (_, i) => i + 1);
 
   const [patterns, setPatterns] = useState(
@@ -424,7 +424,7 @@ const PolySynth = forwardRef<PolyHandle, object>((_, ref) => {
         ? isOn
           ? "bg-[var(--color-primary)]"
           : "bg-[var(--color-surface)]"
-        : "bg-gray-300 opacity-50 cursor-not-allowed"
+        : "bg-gray-300 opacity-10 cursor-not-allowed"
     }
     ${currentStep === stepIndex ? "ring-2 ring-[var(--color-accent)]" : ""}
   `}
@@ -435,20 +435,47 @@ const PolySynth = forwardRef<PolyHandle, object>((_, ref) => {
                 </div>
               ))}
               <div className="flex items-center justify-between mt-4">
-                <div className="flex justify-baseline">
-                  <label className=" mr-2">Steps:</label>
-                  <select
+                <div className="flex flex-col gap-2 w-64">
+                  <label
+                    htmlFor="stepCount"
+                    className="text-sm text-[var(--color-text-muted)]"
+                  >
+                    Steps: {stepCount}
+                  </label>
+
+                  <input
+                    id="stepCount"
+                    type="range"
+                    min={1}
+                    max={32}
                     value={stepCount}
                     onChange={(e) => setStepCount(Number(e.target.value))}
-                    className="border rounded px-2 py-1 w-24"
-                  >
-                    {stepOptions.map((option) => (
-                      <option key={option} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </select>
+                    className="accent-[var(--color-primary)] w-full"
+                  />
+
+                  <div className="relative h-6 w-full mt-1">
+                    {/* Tick marks and labels */}
+                    {[4, 8, 16, 32].map((val) => {
+                      const leftPercent = ((val - 1) / 31) * 100;
+                      return (
+                        <div
+                          key={val}
+                          className="absolute flex flex-col items-center"
+                          style={{
+                            left: `${leftPercent}%`,
+                            transform: "translateX(-50%)",
+                          }}
+                        >
+                          <div className="w-px h-2 bg-[var(--color-border)]" />
+                          <span className="text-xs text-[var(--color-text-muted)]">
+                            {val}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
+
                 <div className="flex justify-end">
                   <button
                     onClick={clearSequence}

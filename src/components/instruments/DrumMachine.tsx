@@ -22,6 +22,13 @@ const DrumMachine = () => {
   const [sampler, setSampler] = useState<Tone.Sampler | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [currentStep, setCurrentStep] = useState<number>(0);
+  const [patterns, setPatterns] = useState<boolean[][][]>([
+    drumNotes.map(() => Array(steps).fill(false)),
+  ]);
+  const [activePatternIndex, setActivePatternIndex] = useState(0);
+  const sequence =
+    patterns[activePatternIndex] ||
+    drumNotes.map(() => Array(steps).fill(false));
 
   // Initialize the sampler with drum samples
   useEffect(() => {
@@ -63,17 +70,17 @@ const DrumMachine = () => {
       console.warn("Sampler not loaded yet.");
     }
   };
-  const [sequence, setSequence] = useState<boolean[][]>(() =>
-    drumNotes.map(() => Array(steps).fill(false))
-  );
 
   // Toggle a pad on/off
   const toggleStep = (row: number, col: number) => {
-    setSequence((prev) =>
-      prev.map((r, i) =>
+    setPatterns((prev) => {
+      const updated = [...prev];
+      const newSeq = updated[activePatternIndex].map((r, i) =>
         i === row ? r.map((val, j) => (j === col ? !val : val)) : r
-      )
-    );
+      );
+      updated[activePatternIndex] = newSeq;
+      return updated;
+    });
   };
 
   // Play the sequence
@@ -205,6 +212,32 @@ const DrumMachine = () => {
             </button>
           </div>
         </div>
+        <div className="flex gap-2 mb-4">
+          <select
+            value={activePatternIndex}
+            onChange={(e) => setActivePatternIndex(Number(e.target.value))}
+            className="border px-2 py-1 rounded"
+          >
+            {patterns.map((_, idx) => (
+              <option key={idx} value={idx}>
+                Pattern {idx + 1}
+              </option>
+            ))}
+          </select>
+
+          <button
+            onClick={() =>
+              setPatterns((prev) => [
+                ...prev,
+                drumNotes.map(() => Array(steps).fill(false)),
+              ])
+            }
+            className="px-2 py-1 bg-[var(--color-primary)] text-white rounded"
+          >
+            + New Pattern
+          </button>
+        </div>
+
         <div className=" space-y-2 p-4">
           {sequence.map((row, rowIndex) => (
             <div
