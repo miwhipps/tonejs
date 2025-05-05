@@ -413,43 +413,51 @@ const PolySynth = forwardRef<PolyHandle, object>((_, ref) => {
                             isActive && toggleStep(noteIndex, stepIndex)
                           }
                           disabled={!isActive}
-                          className={`w-6 h-6 rounded border border-[var(--color-border)] ${
-                            isActive
-                              ? isOn
-                                ? "bg-[var(--color-primary)]"
-                                : "bg-[var(--color-surface)]"
-                              : "bg-gray-300 opacity-50 cursor-not-allowed"
-                          } ${
-                            currentStep === stepIndex
-                              ? "ring-2 ring-[var(--color-accent)]"
-                              : ""
-                          }`}
+                          className={`w-6 h-6 rounded border
+    ${
+      stepIndex % 4 === 0
+        ? " ring-1 ring-[var(--color-accent)]"
+        : "border-[var(--color-border)]"
+    }
+    ${
+      isActive
+        ? isOn
+          ? "bg-[var(--color-primary)]"
+          : "bg-[var(--color-surface)]"
+        : "bg-gray-300 opacity-50 cursor-not-allowed"
+    }
+    ${currentStep === stepIndex ? "ring-2 ring-[var(--color-accent)]" : ""}
+  `}
                         />
                       );
                     })}
                   </div>
                 </div>
               ))}
-
-              <label className="text-sm font-medium">Steps:</label>
-              {/* Step count selector */}
-              <select
-                value={stepCount}
-                onChange={(e) => setStepCount(Number(e.target.value))}
-                className="border rounded px-2 py-1 w-24"
-              >
-                {stepOptions.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-              <button
-                onClick={clearSequence}
-                className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition"
-              >
-                Clear
-              </button>
+              <div className="flex items-center justify-between mt-4">
+                <div className="flex justify-baseline">
+                  <label className=" mr-2">Steps:</label>
+                  <select
+                    value={stepCount}
+                    onChange={(e) => setStepCount(Number(e.target.value))}
+                    className="border rounded px-2 py-1 w-24"
+                  >
+                    {stepOptions.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="flex justify-end">
+                  <button
+                    onClick={clearSequence}
+                    className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition"
+                  >
+                    Clear
+                  </button>
+                </div>
+              </div>
             </div>
           )}
 

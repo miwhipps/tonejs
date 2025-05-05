@@ -341,7 +341,11 @@ const MonoSynth = () => {
               currentStep === colIndex
                 ? "ring-2 ring-[var(--color-accent)]"
                 : ""
-            }`}
+            }     ${
+                      colIndex % 4 === 0
+                        ? "ring-1 ring-[var(--color-accent)]"
+                        : ""
+                    }`}
                   />
                 ))}
               </div>

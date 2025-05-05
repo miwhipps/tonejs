@@ -219,16 +219,23 @@ const DrumMachine = () => {
                   <button
                     key={colIndex}
                     onClick={() => toggleStep(rowIndex, colIndex)}
-                    className={`w-6 h-6 rounded items-center ${
-                      active
-                        ? "bg-[var(--color-primary)]"
-                        : "bg-[var(--color-surface)]"
-                    } border border-[var(--color-border)]
-            ${
-              currentStep === colIndex
-                ? "ring-2 ring-[var(--color-accent)]"
-                : ""
-            }`}
+                    className={`w-6 h-6 rounded items-center border border-[var(--color-border)]
+                   ${
+                     active
+                       ? "bg-[var(--color-primary)]"
+                       : "bg-[var(--color-surface)]"
+                   }
+                   ${
+                     colIndex % 4 === 0
+                       ? "ring-1 ring-[var(--color-accent)]"
+                       : ""
+                   }
+                   ${
+                     currentStep === colIndex
+                       ? "ring-2 ring-[var(--color-accent)]"
+                       : ""
+                   }
+                 `}
                   />
                 ))}
               </div>
