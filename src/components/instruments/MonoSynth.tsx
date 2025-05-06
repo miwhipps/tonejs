@@ -152,7 +152,7 @@ const MonoSynth = () => {
           </h3>
           <div className="flex flex-col gap-3 w-full pr-6">
             <label className="flex flex-col gap-2">
-              <span>Waveform:</span>
+              <span className="text-[var(--color-text)]">Waveform:</span>
               <select
                 name="oscillatorType"
                 value={config.oscillatorType}
@@ -172,7 +172,7 @@ const MonoSynth = () => {
                 name="frequency"
                 value={config.frequency}
                 onChange={handleChange}
-                className="bg-[var(--color-background)] border border-[var(--color-border)] rounded-lg p-2"
+                className="bg-[var(--color-background)] border border-[var(--color-border)] rounded-lg p-2 "
               >
                 {["C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8"].map(
                   (octave) => (
@@ -208,7 +208,7 @@ const MonoSynth = () => {
                 name="filterType"
                 value={config.filterType}
                 onChange={handleChange}
-                className="bg-[var(--color-background)] border border-[var(--color-border)] rounded-lg p-2 text-[var(--color-text)]"
+                className="bg-[var(--color-background)] border border-[var(--color-border)] rounded-lg p-2"
               >
                 {[
                   "lowpass",

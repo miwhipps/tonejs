@@ -212,7 +212,7 @@ const DrumMachine = () => {
             </button>
           </div>
         </div>
-        <div className="flex gap-2 mb-4">
+        <div className="flex gap-2 flex-col mb-4">
           <select
             value={activePatternIndex}
             onChange={(e) => setActivePatternIndex(Number(e.target.value))}
@@ -232,7 +232,7 @@ const DrumMachine = () => {
                 drumNotes.map(() => Array(steps).fill(false)),
               ])
             }
-            className="px-2 py-1 bg-[var(--color-primary)] text-white rounded"
+            className="px-2 py-1 bg-blue-600 text-[var(--color-text)] border-blue-600 shadow-none rounded hover:bg-blue-700 transition-colors"
           >
             + New Pattern
           </button>

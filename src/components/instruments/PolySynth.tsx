@@ -131,8 +131,6 @@ const PolySynth = forwardRef<PolyHandle, object>((_, ref) => {
 
   // Play the sequence
   useEffect(() => {
-    console.log(stepCount);
-
     const seq = new Tone.Sequence(
       (time, step) => {
         setCurrentStep(step);

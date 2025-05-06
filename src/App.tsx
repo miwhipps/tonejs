@@ -71,23 +71,35 @@ function App() {
   return (
     <>
       {!audioStarted ? (
-        <div className="flex items-center bg-[url(/src/images/duga-bg.png)] bg-cover bg-center h-screen w-screen">
-          <img
-            src={dugaLogo}
-            alt="Duga Logo"
-            className="mx-auto w-42 h-42 rounded-full  scale-3d"
-            style={{
-              filter: "drop-shadow(0 0 10px rgba(255, 255, 255, 0.5))",
-            }}
-          />
-          <p className="text-6xl text-white border-8 mt-3">Transmit</p>
-          <button
-            onClick={handleStartAudio}
-            onKeyDown={handleKeyPress}
-            className="mx-auto p-4 h-35 w-25 bg-[#656565] text-white text-6xl rounded-xl shadow-lg hover:bg-[var(--color-accent)] transition-colors"
-          >
-            ↵
-          </button>
+        <div className="bg-[url(/src/images/duga-bg.png)] bg-cover bg-center flex flex-col items-center justify-center h-screen w-screen">
+          <div className="flex flex-col-3 items-center justify-center h-screen w-screen">
+            <div className="w-full h-full flex items-center justify-center">
+              <img
+                src={dugaLogo}
+                alt="Duga Logo"
+                className="w-42 h-42 rounded-full scale-3d"
+                style={{
+                  filter: "drop-shadow(0 0 10px rgba(255, 255, 255, 0.5))",
+                }}
+              />
+            </div>
+            <div className="w-full h-full flex items-center justify-center">
+              <p className="text-6xl text-white border-8 px-4">Transmit</p>
+            </div>
+            <div className="w-full h-full flex items-center justify-center">
+              <button
+                onClick={handleStartAudio}
+                onKeyDown={handleKeyPress}
+                className="p-4 w-24 bg-[#656565] text-white text-6xl rounded-xl shadow-lg hover:bg-[var(--color-accent)] transition-colors"
+              >
+                ↵
+              </button>
+            </div>
+          </div>
+
+          <p className="text-white text-xs mb-8">
+            Built upon the Tone.js framework.
+          </p>
         </div>
       ) : (
         <>
