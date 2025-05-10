@@ -213,29 +213,52 @@ const DrumMachine = () => {
           </div>
         </div>
         <div className="flex gap-2 flex-col mb-4">
-          <select
-            value={activePatternIndex}
-            onChange={(e) => setActivePatternIndex(Number(e.target.value))}
-            className="border px-2 py-1 rounded"
-          >
-            {patterns.map((_, idx) => (
-              <option key={idx} value={idx}>
-                Pattern {idx + 1}
-              </option>
-            ))}
-          </select>
+          {patterns.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => setActivePatternIndex(idx)}
+              className={`border px-2 py-1 rounded min-w-40 ${
+                activePatternIndex === idx
+                  ? "px-2 py-1 bg-blue-600 text-[var(--color-text)] border-blue-600 shadow-none rounded hover:bg-blue-700 transition-colors min-w-30"
+                  : "border-none"
+              }`}
+            >
+              Pattern {idx + 1}
+            </button>
+          ))}
 
-          <button
-            onClick={() =>
-              setPatterns((prev) => [
-                ...prev,
-                drumNotes.map(() => Array(steps).fill(false)),
-              ])
-            }
-            className="px-2 py-1 bg-blue-600 text-[var(--color-text)] border-blue-600 shadow-none rounded hover:bg-blue-700 transition-colors"
-          >
-            + New Pattern
-          </button>
+          <div className="min-w-30 flex flex-col-2 gap-2">
+            {patterns.length < 8 && (
+              <button
+                onClick={() =>
+                  setPatterns((prev) => [
+                    ...prev,
+                    drumNotes.map(() => Array(steps).fill(false)),
+                  ])
+                }
+                className="px-2 py-1 bg-blue-600 text-[var(--color-text)] border-blue-600 shadow-none rounded hover:bg-blue-700 transition-colors w-full"
+              >
+                + Add
+              </button>
+            )}
+            {patterns.length > 1 && (
+              <button
+                onClick={() => {
+                  setPatterns((prev) => {
+                    const updated = [...prev];
+                    updated.splice(activePatternIndex, 1);
+                    return updated;
+                  });
+                  setActivePatternIndex((prevIndex) =>
+                    prevIndex > 0 ? prevIndex - 1 : 0
+                  );
+                }}
+                className="px-2 py-1 bg-[#656565] text-[var(--color-text)] border-red-600 shadow-none rounded hover:bg-gray-700 transition-colors w-full"
+              >
+                - Del
+              </button>
+            )}
+          </div>
         </div>
 
         <div className=" space-y-2 p-4">
