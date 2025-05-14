@@ -3,14 +3,21 @@ import { useState, useRef, useEffect } from "react";
 import PolySynth, { PolyHandle } from "./components/instruments/PolySynth";
 import Chorus, { ChorusHandle } from "./components/fx/Chorus.tsx";
 import Phaser, { PhaserHandle } from "./components/fx/Phaser.tsx";
-import DrumMachine from "./components/instruments/DrumMachine.tsx";
+import DrumMachine, {
+  DrumMachineHandle,
+} from "./components/instruments/DrumMachine.tsx";
+import MonoSynth, { MonoHandle } from "./components/instruments/MonoSynth.tsx";
 import Transport from "./components/transport/Transport.tsx";
 import dugaLogo from "/src/images/duga-logo-SCREENSHOT.png";
 import * as Tone from "tone";
-import MonoSynth from "./components/instruments/MonoSynth.tsx";
+import { mixer } from "./audio/mixer.ts";
+import Mixer from "./components/Mixer.tsx";
 
 function App() {
   const synthRef = useRef<PolyHandle | null>(null);
+  const monoSynthRef = useRef<MonoHandle | null>(null);
+  const drumRef = useRef<DrumMachineHandle | null>(null);
+
   const chorusRef = useRef<ChorusHandle | null>(null);
   const phaserRef = useRef<PhaserHandle | null>(null);
 
@@ -19,16 +26,23 @@ function App() {
 
   useEffect(() => {
     if (audioStarted) {
-      const synth = synthRef.current?.getSynth();
-      const chorus = chorusRef.current?.getChorus();
-      const phaser = phaserRef.current?.getPhaser();
+      // Initialise FX routing
+      mixer.init();
 
-      if (synth && chorus && phaser) {
-        synth.connect(chorus);
-        chorus.connect(phaser);
-        phaser.toDestination();
-      } else {
-        console.warn("Synth, Chorus, or Phaser is null");
+      // Get synths
+      const poly = synthRef.current?.getSynth();
+      const mono = monoSynthRef.current?.getSynth(); // <- You’ll need this ref
+      const drums = drumRef.current?.getOutput(); // <- Likewise, add a ref for DrumMachine
+
+      if (poly && mono && drums) {
+        // PolySynth goes through insert FX
+        poly.connect(mixer.chorus); // FX chain continues inside mixer.init()
+
+        // MonoSynth directly to its mixer channel
+        mono.connect(mixer.monoGain);
+
+        // DrumMachine directly to its mixer channel
+        drums.connect(mixer.drumGain);
       }
     }
   }, [audioStarted]);
@@ -83,6 +97,7 @@ function App() {
                 }}
               />
             </div>
+            å
             <div className="w-full h-full flex items-center justify-center">
               <p className="text-6xl text-white border-8 px-4">Transmit</p>
             </div>
@@ -124,13 +139,15 @@ function App() {
                 ></span>
               </div>
             </div>
-            <DrumMachine />
-            <MonoSynth />
+            <DrumMachine ref={drumRef} />
+            <MonoSynth ref={monoSynthRef} />
+
             <PolySynth ref={synthRef} />
             <div className="flex flex-col-2 gap-4 mx-6">
               <Chorus ref={chorusRef} />
               <Phaser ref={phaserRef} />
             </div>
+            <Mixer />
             <div className="h-[150px]"></div>
             <Transport />
           </div>

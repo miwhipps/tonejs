@@ -1,6 +1,15 @@
-import { useEffect, useState } from "react";
-
+import {
+  useEffect,
+  useState,
+  useRef,
+  useImperativeHandle,
+  forwardRef,
+} from "react";
 import * as Tone from "tone";
+
+export interface DrumMachineHandle {
+  getOutput: () => Tone.Gain;
+}
 
 const drumNotes = [
   "C3",
@@ -16,23 +25,25 @@ const drumNotes = [
   "F4",
   "G4",
 ];
+
 const steps = 16;
 
-const DrumMachine = () => {
-  const [sampler, setSampler] = useState<Tone.Sampler | null>(null);
+const DrumMachine = forwardRef<DrumMachineHandle>((_, ref) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [currentStep, setCurrentStep] = useState<number>(0);
   const [patterns, setPatterns] = useState<boolean[][][]>([
     drumNotes.map(() => Array(steps).fill(false)),
   ]);
   const [activePatternIndex, setActivePatternIndex] = useState(0);
+  const output = useRef<Tone.Gain>(new Tone.Gain().toDestination());
+  const samplerRef = useRef<Tone.Sampler | null>(null);
+
   const sequence =
     patterns[activePatternIndex] ||
     drumNotes.map(() => Array(steps).fill(false));
 
-  // Initialize the sampler with drum samples
   useEffect(() => {
-    const newSampler = new Tone.Sampler(
+    const sampler = new Tone.Sampler(
       {
         C3: "/samples/909-Lo-Kit/BD-909-Sat-A-04.wav",
         D3: "/samples/909-Lo-Kit/BD-909-Tap-Sat-02-BB01.wav",
@@ -49,29 +60,49 @@ const DrumMachine = () => {
       },
       {
         onload: () => {
-          console.log("Sampler loaded successfully");
           setIsLoaded(true);
         },
       }
-    ).toDestination();
+    ).connect(output.current);
 
-    setSampler(newSampler);
+    samplerRef.current = sampler;
 
     return () => {
-      newSampler.dispose();
+      sampler.dispose();
     };
   }, []);
 
-  // Play a sample when a button is clicked
+  useImperativeHandle(ref, () => ({
+    getOutput: () => output.current,
+  }));
+
+  useEffect(() => {
+    if (!samplerRef.current || !isLoaded) return;
+
+    const seq = new Tone.Sequence(
+      (time, step) => {
+        setCurrentStep(step);
+        drumNotes.forEach((note, rowIndex) => {
+          if (sequence[rowIndex][step]) {
+            samplerRef.current!.triggerAttackRelease(note, "8n", time);
+          }
+        });
+      },
+      Array.from({ length: steps }, (_, i) => i),
+      "16n"
+    ).start(0);
+
+    return () => {
+      seq.dispose();
+    };
+  }, [isLoaded, sequence]);
+
   const playSample = (note: string) => {
-    if (isLoaded && sampler) {
-      sampler.triggerAttackRelease(note, "8n");
-    } else {
-      console.warn("Sampler not loaded yet.");
+    if (isLoaded && samplerRef.current) {
+      samplerRef.current.triggerAttackRelease(note, "8n");
     }
   };
 
-  // Toggle a pad on/off
   const toggleStep = (row: number, col: number) => {
     setPatterns((prev) => {
       const updated = [...prev];
@@ -85,14 +116,14 @@ const DrumMachine = () => {
 
   // Play the sequence
   useEffect(() => {
-    if (!sampler || !isLoaded) return;
+    if (!samplerRef.current || !isLoaded) return;
 
     const seq = new Tone.Sequence(
       (time, step) => {
         setCurrentStep(step);
         drumNotes.forEach((note, rowIndex) => {
           if (sequence[rowIndex][step]) {
-            sampler.triggerAttackRelease(note, "8n", time);
+            samplerRef.current!.triggerAttackRelease(note, "8n", time);
           }
         });
       },
@@ -105,7 +136,7 @@ const DrumMachine = () => {
     return () => {
       seq.dispose();
     };
-  }, [sampler, isLoaded, sequence]);
+  }, [samplerRef, isLoaded, sequence]);
 
   return (
     <div className="bg-[var(--color-surface)] text-[var(--color-text-base)] p-6 shadow-xl mx-6 border border-[var(--color-border)]">
@@ -301,6 +332,6 @@ const DrumMachine = () => {
       </div>
     </div>
   );
-};
+});
 
 export default DrumMachine;
