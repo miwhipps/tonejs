@@ -6,6 +6,7 @@ import {
   forwardRef,
 } from "react";
 import * as Tone from "tone";
+import { mixer } from "../../audio/mixer";
 
 export interface DrumMachineHandle {
   getOutput: () => Tone.Gain;
@@ -35,7 +36,7 @@ const DrumMachine = forwardRef<DrumMachineHandle>((_, ref) => {
     drumNotes.map(() => Array(steps).fill(false)),
   ]);
   const [activePatternIndex, setActivePatternIndex] = useState(0);
-  const output = useRef<Tone.Gain>(new Tone.Gain().toDestination());
+  const output = useRef<Tone.Gain>(new Tone.Gain().connect(mixer.drumGain));
   const samplerRef = useRef<Tone.Sampler | null>(null);
 
   const sequence =

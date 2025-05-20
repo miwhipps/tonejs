@@ -4,13 +4,14 @@ import { mixer } from "../audio/mixer";
 import * as Tone from "tone";
 
 export default function Mixer() {
-  const [polyVol, setPolyVol] = useState(0); // in dB
-  const [monoVol, setMonoVol] = useState(0);
-  const [drumVol, setDrumVol] = useState(0);
-  const [masterVol, setMasterVol] = useState(0);
+  const [polyVol, setPolyVol] = useState(-12); // in dB
+  const [monoVol, setMonoVol] = useState(-12);
+  const [drumVol, setDrumVol] = useState(-12);
+  const [masterVol, setMasterVol] = useState(-12);
 
   useEffect(() => {
     mixer.polyGain.gain.setValueAtTime(Tone.dbToGain(polyVol), Tone.now());
+    console.log("Poly gain:", Tone.dbToGain(polyVol));
   }, [polyVol]);
 
   useEffect(() => {
@@ -34,7 +35,7 @@ export default function Mixer() {
     value: number;
     onChange: (val: number) => void;
   }) => (
-    <div className="flex flex-col items-center w-20">
+    <div className="flex flex-col items-center w-25">
       <label className="text-xs text-white mb-2">
         {label} ({value} dB)
       </label>
@@ -53,7 +54,7 @@ export default function Mixer() {
   );
 
   return (
-    <div className="flex gap-6 bg-black/50 p-4 rounded-xl shadow-lg fixed bottom-4 left-1/2 transform -translate-x-1/2 backdrop-blur">
+    <div className="flex gap-12 bg-black/50 p-4 rounded-xl shadow-lg fixed bottom-4 left-1/2 transform -translate-x-1/2 backdrop-blur">
       <Slider label="Poly" value={polyVol} onChange={setPolyVol} />
       <Slider label="Mono" value={monoVol} onChange={setMonoVol} />
       <Slider label="Drums" value={drumVol} onChange={setDrumVol} />
