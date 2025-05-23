@@ -1,5 +1,6 @@
 import * as Tone from "tone";
 import { useState, useEffect, forwardRef, useMemo } from "react";
+import { mixer } from "../../audio/mixer";
 
 export type PolyHandle = {
   getSynth: () => Tone.PolySynth;
@@ -29,7 +30,9 @@ const PolySynth = forwardRef<PolyHandle, object>((_, ref) => {
 
   useEffect(() => {
     synth.connect(filter);
-    filter.toDestination();
+    filter.connect(mixer.polyGain);
+    // filter.connect(mixer.chorus);
+    // filter.connect(mixer.phaser);
   }, [synth, filter]);
 
   useEffect(() => {

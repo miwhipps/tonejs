@@ -36,7 +36,9 @@ function App() {
 
       if (poly && mono && drums) {
         // PolySynth goes through insert FX
-        poly.connect(mixer.chorus); // FX chain continues inside mixer.init()
+        poly.disconnect(); // Disconnect from default output
+        // poly.connect(mixer.chorus); // FX chain continues inside mixer.init()
+        poly.connect(mixer.polyGain);
 
         // MonoSynth directly to its mixer channel
         mono.disconnect();
