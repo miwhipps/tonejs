@@ -39,6 +39,8 @@ function App() {
         poly.connect(mixer.chorus); // FX chain continues inside mixer.init()
 
         // MonoSynth directly to its mixer channel
+        mono.disconnect();
+
         mono.connect(mixer.monoGain);
 
         // DrumMachine directly to its mixer channel
