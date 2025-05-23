@@ -157,16 +157,18 @@ const MonoSynth = forwardRef<MonoHandle>(
     }, [sequence]);
 
     return (
-      <div className=" bg-[var(--color-surface)] text-[var(--color-text-base)] p-6 shadow-xl mx-6 my-6 border border-[var(--color-border)]">
-        <h1 className="flex items-baseline gap-2 text-2xl font-bold text-[var(--color-primary)] mb-4">
+      <div className="bg-[var(--color-surface)] text-[var(--color-text-base)] p-4 sm:p-6 m-4 sm:mx-6 sm:my-6 shadow-xl border border-[var(--color-border)]">
+        <h1 className="text-xl sm:text-2xl font-bold text-[var(--color-primary)] mb-4 flex items-baseline gap-2">
           モノシンセ
         </h1>
-        <div className="flex justify-between mb-4">
-          <section className="mb-6 w-full flex flex-col items-start">
+
+        <div className="flex flex-col gap-8 md:flex-row md:justify-between md:gap-6 mb-6">
+          {/* Oscillator Section */}
+          <section className="w-full flex flex-col items-start">
             <h3 className="text-lg text-[var(--color-accent)] font-semibold mb-2">
               Oscillator
             </h3>
-            <div className="flex flex-col gap-3 w-full pr-6">
+            <div className="flex flex-col gap-3 w-full">
               <label className="flex flex-col gap-2">
                 <span className="text-[var(--color-text)]">Waveform:</span>
                 <select
@@ -182,13 +184,14 @@ const MonoSynth = forwardRef<MonoHandle>(
                   ))}
                 </select>
               </label>
+
               <label className="flex flex-col gap-2">
                 <span>Frequency:</span>
                 <select
                   name="frequency"
                   value={config.frequency}
                   onChange={handleChange}
-                  className="bg-[var(--color-background)] border border-[var(--color-border)] rounded-lg p-2 "
+                  className="bg-[var(--color-background)] border border-[var(--color-border)] rounded-lg p-2"
                 >
                   {["C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8"].map(
                     (octave) => (
@@ -213,11 +216,12 @@ const MonoSynth = forwardRef<MonoHandle>(
             </div>
           </section>
 
-          <section className="mb-6 w-full flex flex-col items-start">
+          {/* Filter Section */}
+          <section className="w-full flex flex-col items-start">
             <h3 className="text-lg text-[var(--color-accent)] font-semibold mb-2">
               Filter
             </h3>
-            <div className="flex flex-col gap-3 w-full pr-6 justify-start">
+            <div className="flex flex-col gap-3 w-full">
               <label className="flex flex-col gap-2">
                 <span>Type:</span>
                 <select
@@ -243,131 +247,136 @@ const MonoSynth = forwardRef<MonoHandle>(
                 </select>
               </label>
 
-              <div className="flex flex-col gap-3 w-full ">
-                <div className="flex flex-col gap-2">
-                  <span className="text-[var(--color-text)]">Rolloff:</span>
-                  <div className="flex gap-2 justify-between">
-                    {rolloffValues.map((val) => (
-                      <button
-                        key={val}
-                        className={`px-3 py-1 rounded border text-sm transition shadow-none w-full
-                        ${
-                          config.filterRolloff === val
-                            ? "bg-blue-600 text-[var(--color-text)] border-blue-600"
-                            : "bg-transparent text-[var(--color-text)] border-gray-500 hover:bg-gray-700"
-                        }`}
-                        onClick={() => handleKnobChange("filterRolloff", val)}
-                      >
-                        {val} dB
-                      </button>
-                    ))}
-                  </div>
-                </div>
-                <div className="flex flex-col gap-3 w-full">
-                  <label className="flex flex-col gap-2">
-                    <span>Res:</span>
-                    <div className="flex mt-2 justify-center">
-                      <SVGKnobLarge
-                        min={0.1}
-                        max={20}
-                        step={0.1}
-                        value={config.filterQ}
-                        onChange={(val) => handleKnobChange("filterQ", val)}
-                      />
-                    </div>
-                  </label>
-                </div>
-              </div>
-            </div>
-          </section>
-          <div className="mb-6 w-full flex flex-col justify-between items-start">
-            <section className="mb-6 w-full flex flex-col justify-between items-start">
-              <h3 className="text-lg text-[var(--color-accent)] font-semibold mb-2">
-                Filter Envelope
-              </h3>
-              <div className="grid grid-cols-4 gap-4">
-                {["Attack", "Decay", "Sustain", "Release"].map((param) => {
-                  const key = `filterEnvelope${param}` as keyof typeof config;
-                  const value = config[key] as number;
-
-                  return (
-                    <div key={param} className="flex flex-col items-center">
-                      <SVGKnobMedium
-                        min={0}
-                        max={1}
-                        step={0.01}
-                        value={value}
-                        onChange={(val) => handleKnobChange(key, val)}
-                      />
-                      <span className="text-sm text-[var(--color-text-muted)] mt-2">
-                        {param}
-                      </span>
-                    </div>
-                  );
-                })}
-              </div>
-            </section>
-            <section className="mb-6 w-full flex flex-col justify-between items-start">
-              <h3 className="text-lg text-[var(--color-accent)] font-semibold mb-2">
-                Envelope
-              </h3>
-              <div className="grid grid-cols-4 gap-4">
-                {["Attack", "Decay", "Sustain", "Release"].map((param) => {
-                  const paramKey = `envelope${param}` as keyof typeof config;
-                  const value = config[paramKey] as number;
-
-                  return (
-                    <div key={param} className="flex flex-col items-center">
-                      <SVGKnobMedium
-                        min={0}
-                        max={1}
-                        step={0.01}
-                        value={value}
-                        onChange={(val) => handleKnobChange(paramKey, val)}
-                      />
-                      <span className="text-sm text-[var(--color-text-muted)] mt-2">
-                        {param}
-                      </span>
-                    </div>
-                  );
-                })}
-              </div>
-            </section>
-          </div>
-          <div className=" space-y-2 p-4">
-            {sequence.map((row, rowIndex) => (
-              <div
-                key={rowIndex}
-                className="flex items-center justify-center gap-2"
-              >
-                <div className="w-8 text-right text-sm text-[var(--color-text-muted)]">
-                  {notes[rowIndex]}
-                </div>
-                <div className="flex gap-1">
-                  {row.map((active, colIndex) => (
+              {/* Rolloff Buttons */}
+              <div className="flex flex-col gap-2">
+                <span className="text-[var(--color-text)]">Rolloff:</span>
+                <div className="flex gap-2 flex-wrap">
+                  {rolloffValues.map((val) => (
                     <button
-                      key={colIndex}
-                      onClick={() => toggleStep(rowIndex, colIndex)}
-                      className={`w-6 h-6 rounded items-center ${
-                        active
-                          ? "bg-[var(--color-primary)]"
-                          : "bg-[var(--color-surface)]"
-                      } border border-[var(--color-border)]
-            ${
-              currentStep === colIndex
-                ? "ring-2 ring-[var(--color-accent)]"
-                : ""
-            }     ${
-                        colIndex % 4 === 0
-                          ? "ring-1 ring-[var(--color-accent)]"
-                          : ""
-                      }`}
-                    />
+                      key={val}
+                      onClick={() => handleKnobChange("filterRolloff", val)}
+                      className={`px-3 py-1 rounded border text-sm transition shadow-none w-full sm:w-auto
+                    ${
+                      config.filterRolloff === val
+                        ? "bg-blue-600 text-[var(--color-text)] border-blue-600"
+                        : "bg-transparent text-[var(--color-text)] border-gray-500 hover:bg-gray-700"
+                    }`}
+                    >
+                      {val} dB
+                    </button>
                   ))}
                 </div>
               </div>
-            ))}
-          </div>
+
+              {/* Filter Q Knob */}
+              <label className="flex flex-col gap-2">
+                <span>Res:</span>
+                <div className="flex mt-2 justify-center">
+                  <SVGKnobLarge
+                    min={0.1}
+                    max={20}
+                    step={0.1}
+                    value={config.filterQ}
+                    onChange={(val) => handleKnobChange("filterQ", val)}
+                  />
+                </div>
+              </label>
+            </div>
+          </section>
+        </div>
+
+        {/* Envelopes Section */}
+        <div className="flex flex-col gap-8 md:flex-row md:justify-between md:gap-6 mb-6">
+          {/* Filter Envelope */}
+          <section className="w-full flex flex-col items-start">
+            <h3 className="text-lg text-[var(--color-accent)] font-semibold mb-2">
+              Filter Envelope
+            </h3>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full">
+              {["Attack", "Decay", "Sustain", "Release"].map((param) => {
+                const key = `filterEnvelope${param}` as keyof typeof config;
+                const value = config[key] as number;
+
+                return (
+                  <div key={param} className="flex flex-col items-center">
+                    <SVGKnobMedium
+                      min={0}
+                      max={1}
+                      step={0.01}
+                      value={value}
+                      onChange={(val) => handleKnobChange(key, val)}
+                    />
+                    <span className="text-sm text-[var(--color-text-muted)] mt-2">
+                      {param}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+
+          {/* Amplitude Envelope */}
+          <section className="w-full flex flex-col items-start">
+            <h3 className="text-lg text-[var(--color-accent)] font-semibold mb-2">
+              Envelope
+            </h3>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full">
+              {["Attack", "Decay", "Sustain", "Release"].map((param) => {
+                const key = `envelope${param}` as keyof typeof config;
+                const value = config[key] as number;
+
+                return (
+                  <div key={param} className="flex flex-col items-center">
+                    <SVGKnobMedium
+                      min={0}
+                      max={1}
+                      step={0.01}
+                      value={value}
+                      onChange={(val) => handleKnobChange(key, val)}
+                    />
+                    <span className="text-sm text-[var(--color-text-muted)] mt-2">
+                      {param}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+        </div>
+
+        {/* Step Sequencer */}
+        <div className="space-y-2 p-2 sm:p-4 overflow-x-auto">
+          {sequence.map((row, rowIndex) => (
+            <div key={rowIndex} className="flex items-center gap-2">
+              <div className="w-8 text-right text-sm text-[var(--color-text-muted)]">
+                {notes[rowIndex]}
+              </div>
+              <div className="flex gap-1">
+                {row.map((active, colIndex) => (
+                  <button
+                    key={colIndex}
+                    onClick={() => toggleStep(rowIndex, colIndex)}
+                    className={`w-6 h-6 rounded border items-center border-[var(--color-border)]
+                  ${
+                    active
+                      ? "bg-[var(--color-primary)]"
+                      : "bg-[var(--color-surface)]"
+                  }
+                  ${
+                    currentStep === colIndex
+                      ? "ring-2 ring-[var(--color-accent)]"
+                      : ""
+                  }
+                  ${
+                    colIndex % 4 === 0
+                      ? "ring-1 ring-[var(--color-accent)]"
+                      : ""
+                  }`}
+                  />
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     );

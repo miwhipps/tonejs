@@ -44,20 +44,21 @@ const DrumMachine = forwardRef<DrumMachineHandle>((_, ref) => {
     drumNotes.map(() => Array(steps).fill(false));
 
   useEffect(() => {
+    const base = import.meta.env.BASE_URL;
     const sampler = new Tone.Sampler(
       {
-        C3: "/samples/909-Lo-Kit/BD-909-Sat-A-04.wav",
-        D3: "/samples/909-Lo-Kit/BD-909-Tap-Sat-02-BB01.wav",
-        E3: "/samples/909-Lo-Kit/BD-909-Various-01.wav",
-        F3: "/samples/909-Lo-Kit/BD-909-Various-06.wav",
-        G3: "/samples/909-Lo-Kit/BD-909-Various-49.wav",
-        A3: "/samples/909-Lo-Kit/CH-909-Clean-02.wav",
-        B3: "/samples/909-Lo-Kit/OH-909-Clean-01.wav",
-        C4: "/samples/909-Lo-Kit/Ride-909-Clean-A-01.wav",
-        D4: "/samples/909-Lo-Kit/Ride-909-MPC.wav",
-        E4: "/samples/909-Lo-Kit/SD-909-Various-26.wav",
-        F4: "/samples/909-Lo-Kit/SD-909-Various-27.wav",
-        G4: "/samples/909-Lo-Kit/SD-909-Various-30.wav",
+        C3: `${base}samples/909-Lo-Kit/BD-909-Sat-A-04.wav`,
+        D3: `${base}samples/909-Lo-Kit/BD-909-Tap-Sat-02-BB01.wav`,
+        E3: `${base}samples/909-Lo-Kit/BD-909-Various-01.wav`,
+        F3: `${base}samples/909-Lo-Kit/BD-909-Various-06.wav`,
+        G3: `${base}samples/909-Lo-Kit/BD-909-Various-49.wav`,
+        A3: `${base}samples/909-Lo-Kit/CH-909-Clean-02.wav`,
+        B3: `${base}samples/909-Lo-Kit/OH-909-Clean-01.wav`,
+        C4: `${base}samples/909-Lo-Kit/Ride-909-Clean-A-01.wav`,
+        D4: `${base}samples/909-Lo-Kit/Ride-909-MPC.wav`,
+        E4: `${base}samples/909-Lo-Kit/SD-909-Various-26.wav`,
+        F4: `${base}samples/909-Lo-Kit/SD-909-Various-27.wav`,
+        G4: `${base}samples/909-Lo-Kit/SD-909-Various-30.wav`,
       },
       {
         onload: () => {
@@ -140,118 +141,51 @@ const DrumMachine = forwardRef<DrumMachineHandle>((_, ref) => {
   }, [samplerRef, isLoaded, sequence]);
 
   return (
-    <div className="bg-[var(--color-surface)] text-[var(--color-text-base)] p-6 shadow-xl mx-6 border border-[var(--color-border)]">
-      <h1 className="text-xl font-bold mb-4">ドラムマシン</h1>
-      <div className="flex flex-col-2 items-center justify-center">
+    <div className="bg-[var(--color-surface)] text-[var(--color-text-base)] p-4 sm:p-6 shadow-xl mx-3 sm:mx-6 border border-[var(--color-border)]">
+      <h1 className="text-lg sm:text-xl font-bold mb-4">ドラムマシン</h1>
+
+      <div className="flex flex-col items-center justify-center gap-4">
         {!isLoaded && <p>Loading samples...</p>}
-        <div className=" space-y-2 p-4">
-          <div className="grid grid-cols-4 gap-4 max-w-150 mx-auto">
-            <button
-              onClick={() => playSample("C3")}
-              className="p-4 bg-[#656565] text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
-            >
-              <span className="text-2xl">C3</span>
-              <br />
-              BD-909-Sat-A
-            </button>
-            <button
-              onClick={() => playSample("D3")}
-              className="p-4 bg-[#656565] text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
-            >
-              <span className="text-2xl">D3</span>
-              <br />
-              BD-909-Sat-B
-            </button>
-            <button
-              onClick={() => playSample("E3")}
-              className="p-4 bg-[#656565] text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
-            >
-              <span className="text-2xl">E3</span>
-              <br />
-              D-909-Various-01
-            </button>
-            <button
-              onClick={() => playSample("F3")}
-              className="p-4 bg-[#656565] text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
-            >
-              <span className="text-2xl">F3</span>
-              <br />
-              BD-909-Various-06
-            </button>
-            <button
-              onClick={() => playSample("G3")}
-              className="p-4 bg-[#656565] text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
-            >
-              <span className="text-2xl">G3</span>
-              <br />
-              BD-909-Various-49
-            </button>
-            <button
-              onClick={() => playSample("A3")}
-              className="p-4 bg-[#656565] text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
-            >
-              <span className="text-2xl">A3</span>
-              <br />
-              CH-909-Clean-02
-            </button>
-            <button
-              onClick={() => playSample("B3")}
-              className="p-4 bg-[#656565] text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
-            >
-              <span className="text-2xl">B3</span>
-              <br />
-              OH-909-Clean-01
-            </button>
-            <button
-              onClick={() => playSample("C4")}
-              className="p-4 bg-[#656565] text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
-            >
-              <span className="text-2xl">C4</span>
-              <br />
-              Ride-909-Clean-A-01
-            </button>
-            <button
-              onClick={() => playSample("D4")}
-              className="p-4 bg-[#656565] text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
-            >
-              <span className="text-2xl">D4</span>
-              <br />
-              Ride-909-MPC
-            </button>
-            <button
-              onClick={() => playSample("E4")}
-              className="p-4 bg-[#656565] text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
-            >
-              <span className="text-2xl">E4</span>
-              <br />
-              SD-909-Various-26
-            </button>
-            <button
-              onClick={() => playSample("F4")}
-              className="p-4 bg-[#656565] text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
-            >
-              <span className="text-2xl">F4</span>
-              <br />
-              SD-909-Various-27
-            </button>
-            <button
-              onClick={() => playSample("G4")}
-              className="p-4 bg-[#656565] text-gray-200 rounded-sm hover:bg-gray-700 h-35 w-35"
-            >
-              <span className="text-2xl">G4</span>
-              <br />
-              SD-909-Various-30
-            </button>
+
+        <div className="space-y-2 p-2 sm:p-4 flex-grow w-full max-w-full sm:max-w-[550px]">
+          {/* Responsive grid: 2 cols on xs, 3 on sm, 4 on md+ */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 max-w-full mx-auto">
+            {/* Buttons */}
+            {[
+              ["C3", "BD-909-Sat-A"],
+              ["D3", "BD-909-Sat-B"],
+              ["E3", "D-909-Various-01"],
+              ["F3", "BD-909-Various-06"],
+              ["G3", "BD-909-Various-49"],
+              ["A3", "CH-909-Clean-02"],
+              ["B3", "OH-909-Clean-01"],
+              ["C4", "Ride-909-Clean-A-01"],
+              ["D4", "Ride-909-MPC"],
+              ["E4", "SD-909-Various-26"],
+              ["F4", "SD-909-Various-27"],
+              ["G4", "SD-909-Various-30"],
+            ].map(([note, label]) => (
+              <button
+                key={note}
+                onClick={() => playSample(note)}
+                className="p-3 sm:p-4 bg-[#656565] text-gray-200 rounded-sm hover:bg-gray-700 h-20 sm:h-30 w-full sm:w-30 text-sm sm:text-base"
+              >
+                <span className="text-xl sm:text-2xl">{note}</span>
+                <br />
+                {label}
+              </button>
+            ))}
           </div>
         </div>
-        <div className="flex gap-2 flex-col mb-4">
+
+        <div className="flex flex-col gap-2 mb-4 w-full max-w-[200px]">
           {patterns.map((_, idx) => (
             <button
               key={idx}
               onClick={() => setActivePatternIndex(idx)}
-              className={`border px-2 py-1 rounded min-w-40 ${
+              className={`border px-2 py-1 rounded min-w-20 sm:min-w-40 text-sm sm:text-base ${
                 activePatternIndex === idx
-                  ? "px-2 py-1 bg-blue-600 text-[var(--color-text)] border-blue-600 shadow-none rounded hover:bg-blue-700 transition-colors min-w-30"
+                  ? "bg-blue-600 text-[var(--color-text)] border-blue-600 hover:bg-blue-700"
                   : "border-none"
               }`}
             >
@@ -259,7 +193,7 @@ const DrumMachine = forwardRef<DrumMachineHandle>((_, ref) => {
             </button>
           ))}
 
-          <div className="min-w-30 flex flex-col-2 gap-2">
+          <div className="flex flex-col gap-2 mt-2">
             {patterns.length < 8 && (
               <button
                 onClick={() =>
@@ -268,7 +202,7 @@ const DrumMachine = forwardRef<DrumMachineHandle>((_, ref) => {
                     drumNotes.map(() => Array(steps).fill(false)),
                   ])
                 }
-                className="px-2 py-1 bg-blue-600 text-[var(--color-text)] border-blue-600 shadow-none rounded hover:bg-blue-700 transition-colors w-full"
+                className="px-2 py-1 bg-blue-600 text-[var(--color-text)] border-blue-600 rounded hover:bg-blue-700 text-sm sm:text-base w-full"
               >
                 + Add
               </button>
@@ -285,51 +219,51 @@ const DrumMachine = forwardRef<DrumMachineHandle>((_, ref) => {
                     prevIndex > 0 ? prevIndex - 1 : 0
                   );
                 }}
-                className="px-2 py-1 bg-[#656565] text-[var(--color-text)] border-red-600 shadow-none rounded hover:bg-gray-700 transition-colors w-full"
+                className="px-2 py-1 bg-[#656565] text-[var(--color-text)] border-red-600 rounded hover:bg-gray-700 text-sm sm:text-base w-full"
               >
                 - Del
               </button>
             )}
           </div>
         </div>
+      </div>
 
-        <div className=" space-y-2 p-4">
-          {sequence.map((row, rowIndex) => (
-            <div
-              key={rowIndex}
-              className="flex items-center justify-center gap-2"
-            >
-              <div className="w-8 text-right text-sm text-[var(--color-text-muted)]">
-                {drumNotes[rowIndex]}
-              </div>
-              <div className="flex gap-1">
-                {row.map((active, colIndex) => (
-                  <button
-                    key={colIndex}
-                    onClick={() => toggleStep(rowIndex, colIndex)}
-                    className={`w-6 h-6 rounded items-center border border-[var(--color-border)]
-                   ${
-                     active
-                       ? "bg-[var(--color-primary)]"
-                       : "bg-[var(--color-surface)]"
-                   }
-                   ${
-                     colIndex % 4 === 0
-                       ? "ring-1 ring-[var(--color-accent)]"
-                       : ""
-                   }
-                   ${
-                     currentStep === colIndex
-                       ? "ring-2 ring-[var(--color-accent)]"
-                       : ""
-                   }
-                 `}
-                  />
-                ))}
-              </div>
+      <div className="space-y-2 p-2 sm:p-4 w-full max-w-full overflow-x-auto">
+        {sequence.map((row, rowIndex) => (
+          <div
+            key={rowIndex}
+            className="flex items-center justify-center gap-1 sm:gap-2"
+          >
+            <div className="w-6 sm:w-8 text-right text-xs sm:text-sm text-[var(--color-text-muted)]">
+              {drumNotes[rowIndex]}
             </div>
-          ))}
-        </div>
+            <div className="flex gap-1 overflow-x-auto">
+              {row.map((active, colIndex) => (
+                <button
+                  key={colIndex}
+                  onClick={() => toggleStep(rowIndex, colIndex)}
+                  className={`w-5 sm:w-6 h-5 sm:h-6 rounded border border-[var(--color-border)]
+                  ${
+                    active
+                      ? "bg-[var(--color-primary)]"
+                      : "bg-[var(--color-surface)]"
+                  }
+                  ${
+                    colIndex % 4 === 0
+                      ? "ring-1 ring-[var(--color-accent)]"
+                      : ""
+                  }
+                  ${
+                    currentStep === colIndex
+                      ? "ring-2 ring-[var(--color-accent)]"
+                      : ""
+                  }
+                `}
+                />
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
