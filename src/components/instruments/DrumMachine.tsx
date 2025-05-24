@@ -144,7 +144,7 @@ const DrumMachine = forwardRef<DrumMachineHandle>((_, ref) => {
     <div className="bg-[var(--color-surface)] text-[var(--color-text-base)] p-4 sm:p-6 shadow-xl mx-3 sm:mx-6 border border-[var(--color-border)]">
       <h1 className="text-lg sm:text-xl font-bold mb-4">ドラムマシン</h1>
 
-      <div className="flex flex-col items-center justify-center gap-4">
+      <div className="flex sm:flex-col items-center justify-center gap-4">
         {!isLoaded && <p>Loading samples...</p>}
 
         <div className="space-y-2 p-2 sm:p-4 flex-grow w-full max-w-full sm:max-w-[550px]">
@@ -183,17 +183,17 @@ const DrumMachine = forwardRef<DrumMachineHandle>((_, ref) => {
         {sequence.map((row, rowIndex) => (
           <div
             key={rowIndex}
-            className="flex items-center justify-center gap-1 sm:gap-2"
+            className="flex flex-col sm:flex-row sm:items-center justify-center gap-2"
           >
-            <div className="w-6 sm:w-8 text-right text-xs sm:text-sm text-[var(--color-text-muted)]">
+            <div className="w-8 text-sm text-[var(--color-text-muted)] sm:text-left sm:w-12 ">
               {drumNotes[rowIndex]}
             </div>
-            <div className="flex gap-1 overflow-x-auto">
+            <div className="flex flex-wrap gap-1 overflow-x-auto">
               {row.map((active, colIndex) => (
                 <button
                   key={colIndex}
                   onClick={() => toggleStep(rowIndex, colIndex)}
-                  className={`w-5 sm:w-6 h-5 sm:h-6 rounded border border-[var(--color-border)]
+                  className={`w-5 sm:w-6 h-5 sm:h-6 rounded border border-[var(--color-border)] mx-auto
                   ${
                     active
                       ? "bg-[var(--color-primary)]"

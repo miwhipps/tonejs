@@ -292,7 +292,7 @@ const MonoSynth = forwardRef<MonoHandle>(
             <h3 className="text-lg text-[var(--color-accent)] font-semibold mb-2">
               Filter Envelope
             </h3>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full my-6">
               {["Attack", "Decay", "Sustain", "Release"].map((param) => {
                 const key = `filterEnvelope${param}` as keyof typeof config;
                 const value = config[key] as number;
@@ -320,7 +320,7 @@ const MonoSynth = forwardRef<MonoHandle>(
             <h3 className="text-lg text-[var(--color-accent)] font-semibold mb-2">
               Envelope
             </h3>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full my-6">
               {["Attack", "Decay", "Sustain", "Release"].map((param) => {
                 const key = `envelope${param}` as keyof typeof config;
                 const value = config[key] as number;
@@ -347,16 +347,19 @@ const MonoSynth = forwardRef<MonoHandle>(
         {/* Step Sequencer */}
         <div className="space-y-2 p-2 sm:p-4 overflow-x-auto">
           {sequence.map((row, rowIndex) => (
-            <div key={rowIndex} className="flex items-center gap-2">
-              <div className="w-8 text-right text-sm text-[var(--color-text-muted)]">
+            <div
+              key={rowIndex}
+              className="flex flex-col sm:flex-row sm:items-center justify-center gap-2"
+            >
+              <div className="w-8 text-sm text-[var(--color-text-muted)] sm:text-left sm:w-12 ">
                 {notes[rowIndex]}
               </div>
-              <div className="flex gap-1">
+              <div className="flex flex-wrap gap-1 overflow-x-auto">
                 {row.map((active, colIndex) => (
                   <button
                     key={colIndex}
                     onClick={() => toggleStep(rowIndex, colIndex)}
-                    className={`w-6 h-6 rounded border items-center border-[var(--color-border)]
+                    className={`w-6 h-6 rounded border items-center border-[var(--color-border)] mx-auto
                   ${
                     active
                       ? "bg-[var(--color-primary)]"

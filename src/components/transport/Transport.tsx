@@ -43,9 +43,10 @@ const Transport = () => {
   }, []);
 
   return (
-    <div className="fixed bottom-3 right-3 text-gray-700 text-center p-3 space-y-2">
-      <div className="flex justify-center gap-2 bg-[#161b22] p-2 shadow-lg border border-[var(--color-border)]">
-        <div className="space-y-2 flex justify-center items-center">
+    <div className="fixed bottom-3 right-3 text-gray-700 p-2 w-full max-w-[calc(100vw-1.5rem)] sm:max-w-fit overflow-x-auto">
+      <div className="flex flex-row items-center justify-center gap-3 bg-[#161b22] p-3 shadow-lg border border-[var(--color-border)]">
+        {/* Swing knob */}
+        <div className="flex justify-center items-center">
           <SVGKnobLarge
             value={swing}
             onChange={(value) => {
@@ -55,6 +56,7 @@ const Transport = () => {
           />
         </div>
 
+        {/* BPM input */}
         <div>
           <input
             type="number"
@@ -62,25 +64,37 @@ const Transport = () => {
             max="300"
             value={bpm}
             onChange={handleBpmChange}
-            className="w-32 h-24 text-center text-5xl font-light rounded border border-[var(--color-border)] bg-[var(--color-background)] p-1"
+            className="w-24 sm:w-32 h-16 sm:h-24 text-center text-3xl sm:text-5xl font-light rounded border border-[var(--color-border)] bg-[var(--color-background)] p-1"
           />
         </div>
-        <button
-          onClick={handleTransportToggle}
-          className="text-[var(--color-base)] hover:text-[var(--color-text-base)]"
-        >
-          <svg viewBox="0 0 24 24" fill="currentColor" className="w-10 h-10">
-            <path d="M8 5v14l11-7z" />
-          </svg>
-        </button>
-        <button
-          onClick={handleTransportToggle}
-          className="text-[var(--color-base)] hover:text-[var(--color-text-base)]"
-        >
-          <svg viewBox="0 0 24 24" fill="currentColor" className="w-10 h-10">
-            <rect x="6" y="6" width="12" height="12" rx="2" />
-          </svg>
-        </button>
+
+        {/* Play and Stop buttons */}
+        <div className="flex gap-2">
+          <button
+            onClick={handleTransportToggle}
+            className="text-[var(--color-base)] hover:text-[var(--color-text-base)] p-2 sm:p-0"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="w-8 sm:w-10 h-8 sm:h-10"
+            >
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </button>
+          <button
+            onClick={handleTransportToggle}
+            className="text-[var(--color-base)] hover:text-[var(--color-text-base)] p-2 sm:p-0"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="w-8 sm:w-10 h-8 sm:h-10"
+            >
+              <rect x="6" y="6" width="12" height="12" rx="2" />
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
   );

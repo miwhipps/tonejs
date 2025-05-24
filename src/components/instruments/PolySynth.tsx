@@ -105,12 +105,12 @@ const PolySynth = forwardRef<PolyHandle, object>((_, ref) => {
     }));
   };
 
-  const [keyboardIsOpen, setKeyboardIsOpen] = useState(false);
-  const [sequencerIsOpen, setSequencerIsOpen] = useState(false);
+  // const [keyboardIsOpen, setKeyboardIsOpen] = useState(false);
+  const [sequencerIsOpen, setSequencerIsOpen] = useState(true);
 
-  const toggleKeyboard = () => {
-    setKeyboardIsOpen((prev) => !prev);
-  };
+  // const toggleKeyboard = () => {
+  //   setKeyboardIsOpen((prev) => !prev);
+  // };
 
   const toggleSequencer = () => {
     setSequencerIsOpen((prev) => !prev);
@@ -173,7 +173,7 @@ const PolySynth = forwardRef<PolyHandle, object>((_, ref) => {
 
   return (
     <>
-      <div className=" bg-[var(--color-surface)] text-[var(--color-text-base)] p-6 shadow-xl mx-6 my-6 border border-[var(--color-border)]">
+      <div className="bg-[var(--color-surface)] text-[var(--color-text-base)] p-4 sm:p-6 m-4 sm:mx-6 sm:my-6 shadow-xl border border-[var(--color-border)]">
         <h1 className="flex items-baseline gap-2 text-2xl font-bold text-[var(--color-primary)] mb-4">
           シンセ
           <span className="text-xl font-normal">one</span>
@@ -366,7 +366,7 @@ const PolySynth = forwardRef<PolyHandle, object>((_, ref) => {
               </button>
             </h3>
 
-            <h3 className="text-lg text-[var(--color-accent)] font-semibold mb-2 flex items-center">
+            {/* <h3 className="text-lg text-[var(--color-accent)] font-semibold mb-2 flex items-center">
               Keyboard
               <button
                 onClick={toggleKeyboard}
@@ -390,20 +390,20 @@ const PolySynth = forwardRef<PolyHandle, object>((_, ref) => {
                   />
                 </svg>
               </button>
-            </h3>
+            </h3> */}
           </div>
 
           {sequencerIsOpen && (
-            <div className="space-y-2 p-4">
+            <div className="space-y-4">
               {notes.map((note, noteIndex) => (
                 <div
                   key={noteIndex}
-                  className="flex items-center justify-center gap-2"
+                  className="flex flex-col sm:flex-row sm:items-center justify-center gap-2"
                 >
-                  <div className="w-8 text-right text-sm text-[var(--color-text-muted)]">
+                  <div className="w-8 text-sm text-[var(--color-text-muted)] sm:text-left sm:w-12 ">
                     {note}
                   </div>
-                  <div className="flex gap-1">
+                  <div className="flex flex-wrap gap-1">
                     {Array.from({ length: 32 }, (_, stepIndex) => {
                       const isActive = stepIndex < stepCount;
                       const isOn = patterns[noteIndex]?.[stepIndex] ?? false;
@@ -415,36 +415,40 @@ const PolySynth = forwardRef<PolyHandle, object>((_, ref) => {
                             isActive && toggleStep(noteIndex, stepIndex)
                           }
                           disabled={!isActive}
-                          className={`w-6 h-6 rounded border
-    ${
-      stepIndex % 4 === 0
-        ? " ring-1 ring-[var(--color-accent)]"
-        : "border-[var(--color-border)]"
-    }
-    ${
-      isActive
-        ? isOn
-          ? "bg-[var(--color-primary)]"
-          : "bg-[var(--color-surface)]"
-        : "bg-gray-300 opacity-10 cursor-not-allowed"
-    }
-    ${currentStep === stepIndex ? "ring-2 ring-[var(--color-accent)]" : ""}
-  `}
+                          className={`w-6 h-6 rounded border text-xs mx-auto
+                  ${
+                    stepIndex % 4 === 0
+                      ? "ring-1 ring-[var(--color-accent)]"
+                      : "border-[var(--color-border)]"
+                  }
+                  ${
+                    isActive
+                      ? isOn
+                        ? "bg-[var(--color-primary)]"
+                        : "bg-[var(--color-surface)]"
+                      : "bg-gray-300 opacity-10 cursor-not-allowed"
+                  }
+                  ${
+                    currentStep === stepIndex
+                      ? "ring-2 ring-[var(--color-accent)]"
+                      : ""
+                  }
+                `}
                         />
                       );
                     })}
                   </div>
                 </div>
               ))}
-              <div className="flex items-center justify-between mt-4">
-                <div className="flex flex-col gap-2 w-64">
+
+              <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mt-6">
+                <div className="w-full sm:w-1/2 max-w-xs">
                   <label
                     htmlFor="stepCount"
                     className="text-sm text-[var(--color-text-muted)]"
                   >
                     Steps: {stepCount}
                   </label>
-
                   <input
                     id="stepCount"
                     type="range"
@@ -454,9 +458,7 @@ const PolySynth = forwardRef<PolyHandle, object>((_, ref) => {
                     onChange={(e) => setStepCount(Number(e.target.value))}
                     className="accent-[var(--color-primary)] w-full"
                   />
-
-                  <div className="relative h-6 w-full mt-1">
-                    {/* Tick marks and labels */}
+                  <div className="relative h-6 w-full mt-2">
                     {[4, 8, 16, 32].map((val) => {
                       const leftPercent = ((val - 1) / 31) * 100;
                       return (
@@ -478,10 +480,10 @@ const PolySynth = forwardRef<PolyHandle, object>((_, ref) => {
                   </div>
                 </div>
 
-                <div className="flex justify-end">
+                <div className="flex justify-end sm:justify-start">
                   <button
                     onClick={clearSequence}
-                    className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition"
+                    className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
                   >
                     Clear
                   </button>
@@ -490,11 +492,11 @@ const PolySynth = forwardRef<PolyHandle, object>((_, ref) => {
             </div>
           )}
 
-          {keyboardIsOpen && (
+          {/* {keyboardIsOpen && (
             <div className="flex justify-center my-4">
-              {/* Keyboard component goes here */}
+
             </div>
-          )}
+          )} */}
         </div>
       </div>
     </>
