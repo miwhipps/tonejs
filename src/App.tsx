@@ -1,8 +1,8 @@
 import "./App.css";
 import { useState, useRef, useEffect } from "react";
 import PolySynth, { PolyHandle } from "./components/instruments/PolySynth";
-import Chorus, { ChorusHandle } from "./components/fx/Chorus.tsx";
-import Phaser, { PhaserHandle } from "./components/fx/Phaser.tsx";
+// import Chorus, { ChorusHandle } from "./components/fx/Chorus.tsx";
+// import Phaser, { PhaserHandle } from "./components/fx/Phaser.tsx";
 import DrumMachine, {
   DrumMachineHandle,
 } from "./components/instruments/DrumMachine.tsx";
@@ -11,15 +11,15 @@ import Transport from "./components/transport/Transport.tsx";
 import dugaLogo from "/src/images/duga-logo-SCREENSHOT.png";
 import * as Tone from "tone";
 import { mixer } from "./audio/mixer.ts";
-import Mixer from "./components/Mixer.tsx";
+// import Mixer from "./components/Mixer.tsx";
 
 function App() {
   const synthRef = useRef<PolyHandle | null>(null);
   const monoSynthRef = useRef<MonoHandle | null>(null);
   const drumRef = useRef<DrumMachineHandle | null>(null);
 
-  const chorusRef = useRef<ChorusHandle | null>(null);
-  const phaserRef = useRef<PhaserHandle | null>(null);
+  // const chorusRef = useRef<ChorusHandle | null>(null);
+  // const phaserRef = useRef<PhaserHandle | null>(null);
 
   const [audioStarted, setAudioStarted] = useState(false);
   const [audioState, setAudioState] = useState("suspended");
@@ -147,11 +147,11 @@ function App() {
             <MonoSynth ref={monoSynthRef} />
 
             <PolySynth ref={synthRef} />
-            <div className="flex flex-col-2 gap-4 mx-6">
+            {/* <div className="flex flex-col-2 gap-4 mx-6">
               <Chorus ref={chorusRef} />
               <Phaser ref={phaserRef} />
-            </div>
-            <Mixer />
+            </div> */}
+            {/* <Mixer /> */}
             <div className="h-[150px]"></div>
             <Transport />
           </div>

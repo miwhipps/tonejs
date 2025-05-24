@@ -177,55 +177,6 @@ const DrumMachine = forwardRef<DrumMachineHandle>((_, ref) => {
             ))}
           </div>
         </div>
-
-        <div className="flex flex-col gap-2 mb-4 w-full max-w-[200px]">
-          {patterns.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => setActivePatternIndex(idx)}
-              className={`border px-2 py-1 rounded min-w-20 sm:min-w-40 text-sm sm:text-base ${
-                activePatternIndex === idx
-                  ? "bg-blue-600 text-[var(--color-text)] border-blue-600 hover:bg-blue-700"
-                  : "border-none"
-              }`}
-            >
-              Pattern {idx + 1}
-            </button>
-          ))}
-
-          <div className="flex flex-col gap-2 mt-2">
-            {patterns.length < 8 && (
-              <button
-                onClick={() =>
-                  setPatterns((prev) => [
-                    ...prev,
-                    drumNotes.map(() => Array(steps).fill(false)),
-                  ])
-                }
-                className="px-2 py-1 bg-blue-600 text-[var(--color-text)] border-blue-600 rounded hover:bg-blue-700 text-sm sm:text-base w-full"
-              >
-                + Add
-              </button>
-            )}
-            {patterns.length > 1 && (
-              <button
-                onClick={() => {
-                  setPatterns((prev) => {
-                    const updated = [...prev];
-                    updated.splice(activePatternIndex, 1);
-                    return updated;
-                  });
-                  setActivePatternIndex((prevIndex) =>
-                    prevIndex > 0 ? prevIndex - 1 : 0
-                  );
-                }}
-                className="px-2 py-1 bg-[#656565] text-[var(--color-text)] border-red-600 rounded hover:bg-gray-700 text-sm sm:text-base w-full"
-              >
-                - Del
-              </button>
-            )}
-          </div>
-        </div>
       </div>
 
       <div className="space-y-2 p-2 sm:p-4 w-full max-w-full overflow-x-auto">
@@ -264,6 +215,53 @@ const DrumMachine = forwardRef<DrumMachineHandle>((_, ref) => {
             </div>
           </div>
         ))}
+      </div>
+      <div className="flex flex-row gap-2 mb-4 w-full max-w-[200px] mt-2">
+        {patterns.map((_, idx) => (
+          <button
+            key={idx}
+            onClick={() => setActivePatternIndex(idx)}
+            className={`border px-2 py-1 rounded min-w-15 sm:min-w-15 text-sm sm:text-base ${
+              activePatternIndex === idx
+                ? "bg-blue-600 text-[var(--color-text)] border-blue-600 hover:bg-blue-700"
+                : "border-none"
+            }`}
+          >
+            P {idx + 1}
+          </button>
+        ))}
+      </div>
+      <div className="flex flex-row gap-2 mt-2">
+        {patterns.length < 5 && (
+          <button
+            onClick={() =>
+              setPatterns((prev) => [
+                ...prev,
+                drumNotes.map(() => Array(steps).fill(false)),
+              ])
+            }
+            className="px-2 py-1 bg-blue-600 text-[var(--color-text)] border-blue-600 rounded hover:bg-blue-700 text-sm sm:text-base w-15 sm:w-15"
+          >
+            + Add
+          </button>
+        )}
+        {patterns.length > 1 && (
+          <button
+            onClick={() => {
+              setPatterns((prev) => {
+                const updated = [...prev];
+                updated.splice(activePatternIndex, 1);
+                return updated;
+              });
+              setActivePatternIndex((prevIndex) =>
+                prevIndex > 0 ? prevIndex - 1 : 0
+              );
+            }}
+            className="px-2 py-1 bg-[#656565] text-[var(--color-text)] border-red-600 rounded hover:bg-gray-700 text-sm sm:text-base w-15 sm:w-15"
+          >
+            - Del
+          </button>
+        )}
       </div>
     </div>
   );
