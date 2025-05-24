@@ -89,34 +89,41 @@ function App() {
   return (
     <>
       {!audioStarted ? (
-        <div className="bg-[url(/src/images/duga-bg.png)] bg-cover bg-center flex flex-col items-center justify-center h-screen w-screen">
-          <div className="flex flex-col-3 items-center justify-center h-screen w-screen">
-            <div className="w-full h-full flex items-center justify-center">
+        <div className="bg-[url(/src/images/duga-bg.png)] bg-cover bg-center flex flex-col items-center justify-between min-h-screen w-screen px-4 py-8">
+          <div className="flex flex-col sm:flex-col md:flex-row items-center justify-center w-full gap-6 my-auto">
+            {/* Logo */}
+            <div className="flex items-center justify-center w-full md:w-1/3">
               <img
                 src={dugaLogo}
                 alt="Duga Logo"
-                className="w-42 h-42 rounded-full scale-3d"
+                className="w-32 h-32 md:w-48 md:h-48 rounded-full"
                 style={{
                   filter: "drop-shadow(0 0 10px rgba(255, 255, 255, 0.5))",
                 }}
               />
             </div>
-            å
-            <div className="w-full h-full flex items-center justify-center">
-              <p className="text-6xl text-white border-8 px-4">Transmit</p>
+
+            {/* Text */}
+            <div className="flex items-center justify-center w-full md:w-1/3">
+              <p className="text-4xl md:text-6xl text-white border-4 md:border-8 px-2 md:px-4 text-center">
+                Transmit
+              </p>
             </div>
-            <div className="w-full h-full flex items-center justify-center">
+
+            {/* Button */}
+            <div className="flex items-center justify-center w-full md:w-1/3">
               <button
                 onClick={handleStartAudio}
                 onKeyDown={handleKeyPress}
-                className="p-4 w-24 bg-[#656565] text-white text-6xl rounded-xl shadow-lg hover:bg-[var(--color-accent)] transition-colors"
+                className="p-3 md:p-4 w-20 md:w-24 bg-[#656565] text-white text-4xl md:text-6xl rounded-xl shadow-lg hover:bg-[var(--color-accent)] transition-colors"
               >
                 ↵
               </button>
             </div>
           </div>
 
-          <p className="text-white text-xs mb-8">
+          {/* Footer */}
+          <p className="text-white text-xs text-center mt-8">
             Built upon the Tone.js framework.
           </p>
         </div>
