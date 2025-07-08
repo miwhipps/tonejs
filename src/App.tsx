@@ -11,7 +11,7 @@ import Transport from "./components/transport/Transport.tsx";
 import dugaLogo from "/src/images/duga-logo-SCREENSHOT.png";
 import * as Tone from "tone";
 import { mixer } from "./audio/mixer.ts";
-// import Mixer from "./components/Mixer.tsx";
+import Mixer from "./components/Mixer.tsx";
 
 function App() {
   const synthRef = useRef<PolyHandle | null>(null);
@@ -158,7 +158,7 @@ function App() {
               <Chorus ref={chorusRef} />
               <Phaser ref={phaserRef} />
             </div> */}
-            {/* <Mixer /> */}
+            <Mixer />
             <div className="h-[150px]"></div>
             <Transport />
           </div>
